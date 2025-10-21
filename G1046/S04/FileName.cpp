@@ -67,7 +67,18 @@ public:
 
 	//metode accesor(get si set)
 	//meth de prelucrare (afisare)
-	
+	void afisare() {
+		cout << "\nNume: " << this->nume;
+		cout << ", nr note: " << this->nrNote;
+		cout << ", note: ";
+		for (int i = 0; i < this->nrNote; i++)
+			cout << this->note[i] << " ";
+		cout << ", buget: " << this->buget;
+	}
+
+	//meth care elimina ultima nota
+	// meth care elimina notele care nu sunt de trecere
+	// meth care adauga o noua nota la sfarsit
 	//supraincarcare operatori(specializare operatori)
 	//destructor
 };
@@ -91,7 +102,11 @@ int main() {
 
 	Student s7("Gigel");
 	Student s8 = "Costel";
+	int v[]{ 10,7,4 };
+	Student s9("Marcel", 3, v, 150);
 
+	//Student s10("Ana", 2, new int[] {10, 5}, 100);
+	
 
 	//int* v;
 	//int x;
