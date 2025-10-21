@@ -76,12 +76,23 @@ public:
 		for (int i = 0; i < this->nrPreturi; i++)
 			cout << this->istoricPreturi[i] << " ";
 	}
+
+	//TEMA
+	//meth care elimina primul pret
+	// meth care elimina pretul cel mai mare
+	// elimina ultimele k preturi
+	
 	//supraincarcare de operatori
 	//destructor
 };
 
+//aici sunt functiile globale
+void testGlobal(int x) {
+	cout << "\nAfisare x prin functie globala";
+}
 
 int main() {
+	testGlobal(30);
 	Produs p1;
 	p1.afisare();
 	Produs p2[5];
@@ -94,6 +105,8 @@ int main() {
 	//Produs p6();
 	Produs p7(2);
 	Produs p8 = 2;
+	float preturi[]{ 12.5,16,16,19.5 };
+	Produs p9(1234, 100, preturi, 4);
 
 	//conversii
 	//nedegradante
