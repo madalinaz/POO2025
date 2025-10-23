@@ -69,14 +69,35 @@ public:
 
 	//2.metode accesor (get si set) -> se ataseaza campurilor private
 	//3.metode de prelucrare (afisare)
-	void afisare() {
-
+	void afisare() const{
+		cout << "\nCod: " << this->cod;
+		cout << "\nStoc: " << this->stoc;
+		cout << "\nNr preturi: " << this->nrPreturi;
+		cout << "\nPreturi: ";
+		for (int i = 0; i < this->nrPreturi; i++) {
+			cout << this->preturi[i] << " ";
+		}
 	}
+
+	//meth care adauga un pret nou doar daca pretul este 
+	//diferit de ultimul
+
 	//4.supraincarcari de operatori
 	//5.destructor
 };
 
+//fct globala
+//face compactarea unui vector prin eliminarea 
+//dublurilor consecutive
+
+
+void test() {
+	//bla bla
+}
+
 int main() {
+	//apel fct globala
+	test();
 	/*Produs p;
 	p.setStoc(20);
 	cout << "\nStoc curent: " << p.getStoc();
