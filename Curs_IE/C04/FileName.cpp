@@ -32,16 +32,16 @@ class Produs {
 	double pret=0;
 
 public:
-	Produs() {
-		cout << "\nApel constructor fara param";
-	}
+	//Produs() {
+	//	cout << "\nApel constructor fara param";
+	//}
 
-	Produs(string _denumire) {
-		cout << "\nApel constructor cu 1 param";
-		if (_denumire.length() >= 3) {
-			this->denumire = _denumire;
-		}
-	}
+	//Produs(string _denumire) {
+	//	cout << "\nApel constructor cu 1 param";
+	//	if (_denumire.length() >= 3) {
+	//		this->denumire = _denumire;
+	//	}
+	//}
 
 	Produs(string _denumire="Anonim",
 		int _stoc=0, double _pret=0) {
