@@ -32,7 +32,20 @@ public:
 			this->stoc = _stoc;
 		} 
 		if (_nrPreturi > 0 && _preturi != nullptr) {
-			//...
+			int dim = 1;
+			for (int i = 1; i < _nrPreturi; i++) {
+				if (_preturi[i] != _preturi[i - 1])
+					dim++;
+			}
+			this->nrPreturi = dim;
+			this->preturi = new double[this->nrPreturi];
+			int k = 0;
+			this->preturi[k++] = _preturi[0];
+			for (int i = 1; i < _nrPreturi; i++) {
+				if (_preturi[i] != this->preturi[k - 1]) {
+					this->preturi[k++] = _preturi[i];
+				}
+			}
 		}
 	}
 
@@ -44,10 +57,21 @@ public:
 			cout << "-";
 		}
 		else {
-			cout << this->preturi[this->nrPreturi - 1];
+			cout << "\nPreturi: ";
+			for (int i = 0; i < this->nrPreturi; i++) {
+				cout << this->preturi[i] << " ";
+			}
+			//cout << this->preturi[this->nrPreturi - 1];
 		}
 	}
+
 };
+
+//functie globala
+//functie de curatare/compactare
+void compactare(double*& vector, int& dim) {
+	//to do ce se intampla in constructor inainte
+}
 
 int main() {
 	cout << endl << sizeof(Produs);
@@ -75,8 +99,8 @@ int main() {
 	float fx = xx;
 	Produs p7();//functie
 	Produs p8[5][3];
-
-
-
+	double v[]{ 10,7,7,7,10,13,13 };
+	Produs p9("Stilou", 7, v, 100);
+	p9.afisare();
 	return 0;
 }
