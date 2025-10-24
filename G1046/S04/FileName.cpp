@@ -50,7 +50,7 @@ public:
 	}
 
 	//meth de prelucrare(afisare,...)
-	void afisare() const {
+	void afisare() const{
 		cout << "\nDenumire: " << this->denumire;
 		cout << "\nPretul curent: ";
 		if (this->nrPreturi == 0) {
