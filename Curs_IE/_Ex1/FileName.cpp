@@ -3,9 +3,10 @@ using namespace std;
 
 class Student {
 	char* nume;
+	float bugetDisponibil;
 	int nrNote;
 	int* note;
-	float bugetDisponibil;
+
 
 public:
 	//constructor fara param
