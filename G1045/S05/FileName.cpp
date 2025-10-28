@@ -69,6 +69,31 @@ public:
 			this->nrProd++;
 		}
 	}
+
+	void setDenumire(string _denumire) {
+		this->denumire = _denumire;
+	}
+
+	string getDenumire() {
+		return this->denumire;
+	}
+
+	//nu respecta incapsularea
+	const int* getCoduri() {
+		return this->coduri;
+	}
+
+	int* getCoduriBun() {
+		int* copie = new int[this->nrProd];
+		for (int i = 0; i < this->nrProd; i++) {
+			copie[i] = this->coduri[i];
+		}
+		return copie;
+	}
+
+	int getNrProd() {
+		return this->nrProd;
+	}
 };
 
 //functie globala care verifica daca un elem apartine 
@@ -97,5 +122,15 @@ int main() {
 	m2.afisare();
 	m2.adaugaCod(10);
 	m2.afisare();
+
+	int* coduriInterceptate = (int*)m2.getCoduri();
+	//coduriInterceptate[0] = 123456;
+	m2.afisare();
+
+	int* coduriInterceptate2 = m2.getCoduriBun();
+	coduriInterceptate2[0] = 123456;
+	m2.afisare();
+	//dar de dezalocat coduriInterceptate2
+	delete[] coduriInterceptate2;
 	return 0;
 }
