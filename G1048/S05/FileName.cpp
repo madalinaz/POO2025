@@ -48,8 +48,19 @@ public:
 			cout << this->coduriProdus[i] << " ";
 	} 
 
-	void adaugaCod() {
-
+	void adaugaCod(int _codNou) {
+		bool ok = true;
+		for (int i = 0; i < this->nrProduse; i++) {
+			if (this->coduriProdus[i] == _codNou) {
+				ok = false;
+				//return;
+				//break;
+			}
+		}
+		if (ok) {
+			//se baga _codNou la sfarsit de vector
+			
+		}
 	}
 };
 
