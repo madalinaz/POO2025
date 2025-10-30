@@ -13,13 +13,45 @@ public:
 	
 	//constructor care primeste toti param
 	//fara validari de continut vector
-	Magazin(string _denumire, int _nrProduse, int* _coduri) {
+	/*Magazin(string _denumire, int _nrProduse, int* _coduri) {
 		this->denumire = _denumire;
 		if (_nrProduse > 0 && _coduri != nullptr) {
 			this->nrProduse = _nrProduse;
 			this->coduri = new int[this->nrProduse];
 			for (int i = 0; i < this->nrProduse; i++)
 				this->coduri[i] = _coduri[i];
+		}
+	}*/
+
+	//cu validari in interiorul constructorului
+	Magazin(string _denumire, int _nrProduse, int* _coduri) {
+		this->denumire = _denumire;
+		if (_nrProduse > 0 && _coduri != nullptr) {
+			int ct = 1;
+			for (int i = 1; i < _nrProduse; i++) {
+				bool gasit = false;
+				for (int j = 0; j < i && gasit == false; j++) {
+					if (_coduri[i] == _coduri[j])
+						gasit = true;
+				}
+				if (!gasit) {
+					ct++;
+				}
+			}
+			this->coduri = new int[ct];
+			this->nrProduse = ct;
+			int k = 0;
+			this->coduri[k++] = _coduri[0];
+			for (int i = 1; i < _nrProduse; i++) {
+				bool gasit = false;
+				for (int j = 0; j < i && gasit == false; j++) {
+					if (_coduri[i] == _coduri[j])
+						gasit = true;
+				}
+				if (!gasit) {
+					this->coduri[k++] = _coduri[i];
+				}
+			}
 		}
 	}
 
