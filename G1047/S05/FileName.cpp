@@ -2,6 +2,8 @@
 using namespace std;
 //get si set pe alocari dinamice
 //fct globala
+void globalAdaugaPretNou(double*& v, int& n, 
+	double _pretNou);
 
 //to do home -> de completat si cu restrictii ca sa fie pret
 class Produs {
@@ -30,7 +32,7 @@ public:
 	//adaugam validare pe continut vector
 	//adica NU avem voie 2 valori alaturate egale
 	//daca gasim, le eliminam
-	Produs(string _denumire, int _nrPreturi, double* _preturi) {
+	/*Produs(string _denumire, int _nrPreturi, double* _preturi) {
 		this->denumire = _denumire;
 		if (_nrPreturi > 0 && _preturi != nullptr) {
 			int ct = 1;
@@ -49,11 +51,29 @@ public:
 				}
 			}
 		}
-	}
+	}*/
 
 	//sa se modifice constructorul cu toti param
 	//astfel incat sa apelati meth adaugaPret
+	/*Produs(string _denumire, int _nrPreturi, double* _preturi) {
+		this->denumire = _denumire;
+		if (_nrPreturi > 0 && _preturi != nullptr) {
+			for (int i = 0; i < _nrPreturi; i++) {
+				adaugaPret(_preturi[i]);
+			}
+		}
+	}*/
 
+	//aici apelez functia globala care adauga un nou elem intr-un vector
+	Produs(string _denumire, int _nrPreturi, double* _preturi) {
+		this->denumire = _denumire;
+		if (_nrPreturi > 0 && _preturi != nullptr) {
+			for (int i = 0; i < _nrPreturi; i++) {
+				globalAdaugaPretNou(this->preturi, 
+					this->nrPreturi, _preturi[i]);
+			}
+		}
+	}
 
 	//meth care sa adauge un nou pret in vector
 	void adaugaPret(double _pretNou) {
@@ -86,7 +106,50 @@ public:
 			cout << this->preturi[i] << " ";
 		}
 	}
+
+	const double* getPreturi() {
+		return this->preturi;
+	}
+
+	//LA FEL PROCEDAM SI PENTRU VECTOR STATIC(DE CE????-HOME)
+	//DAR, cine apeleaza meth, trebuie sa se 
+	// ocupe si de dezalocarea lui copie
+	//respecta incapsularea
+	double* getPreturiBun() {
+		double* copie = new double[this->nrPreturi];
+		for (int i = 0; i < this->nrPreturi; i++)
+			copie[i] = this->preturi[i];
+		return copie;
+	}
+
+	int getNrPreturi() {
+		return this->nrPreturi;
+	}
 };
+
+//fct globala
+//care adauga un nou pret intr-un vector de preturi
+//pastrand logica.....
+void globalAdaugaPretNou(double*& v, int& n, double _pretNou) {
+	if (_pretNou > 0) {
+		if (n == 0 || _pretNou != v[n - 1]) {
+			double* aux = new double[n + 1];
+			for (int i = 0; i < n; i++)
+				aux[i] = v[i];
+			aux[n] = _pretNou;
+			delete[] v;
+			v = nullptr;
+			v = aux;
+			n++;
+		}
+		else {
+			cout << "\nPretul este identic cu ultimul din lista";
+		}
+	}
+	else {
+		cout << "\nNu este pret (este negativ)";
+	}
+}
 
 int main() {
 	double v[]{ 10,18,18,13,18,11,15 };
@@ -98,5 +161,15 @@ int main() {
 	p1.afisare();
 	p1.adaugaPret(13);
 	p1.afisare();
+
+	cout << "\n-----------GET SI SET-----------";
+	double* vv = (double*)p1.getPreturiBun();
+	int n = p1.getNrPreturi();
+	for (int i = 0; i < n; i++)
+		cout << vv[i] << " ";
+	vv[0] = 123456;
+	p1.afisare();
+	//dezalocam copia!!!!!!
+	delete[] vv;
 	return 0;
 }
