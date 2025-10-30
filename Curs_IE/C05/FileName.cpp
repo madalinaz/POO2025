@@ -2,6 +2,8 @@
 using namespace std;
 
 class Produs {
+	//campuri comune tuturor obj de tip Produs
+	static double TVA;
 	char* denumire = nullptr;
 	int stoc = 0;
 	double pret = 0;
@@ -55,23 +57,43 @@ public:
 			this->denumire = nullptr;
 		}
 	}
+
+	//metoda inline
+	void metodaInline() {
+		cout << "\nFace ceva inline";
+	}
+
+	//am declarat o metoda care nu mai este inline
+	void metoda();
+
+	//metoda statica
+	/*static void setTVA(double _TVA) {
+		if (_TVA > 0) {
+			this->TVA = _TVA;
+		}
+	}*/
 };
+
+inline void Produs::metoda() {
+	 cout << "\nAici este implementata in afara clasei";
+}
 
 Produs& fct(Produs& p) {
 	//to do...
 	return p;
 }
 
-Produs fct2(Produs p[10], int n) {
-	return p[0];
+Produs fct2(Produs vp[10], int n) {
+	return vp[0];
 }
 
 Produs& fct3(Produs p[10], int n) {
 	return p[0];
 }
 
+//crapa caci returnam un obj care se distruge de pe stiva lui fct4
 Produs& fct4(Produs p) {
-	Produs p2;
+	 Produs p2;
 	//.....
 	return p2;
 }
@@ -99,6 +121,6 @@ int main() {
 	cout << "\n------------fct--------";
 	fct(p2);
 	cout << "\n------------fct--------";
-
+	/*p2.setTVA(21);*/
 	return 0;
 }
