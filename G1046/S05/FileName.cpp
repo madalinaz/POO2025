@@ -9,7 +9,6 @@ class Magazin {
 public:
 	//constructor fara param
 	Magazin(){ }
-	//constructor cu denumire
 	
 	//constructor care primeste toti param
 	//fara validari de continut vector
@@ -59,7 +58,7 @@ public:
 	Magazin(string _denumire, int _nrProduse, int* _coduri) {
 		this->denumire = _denumire;
 		if (_nrProduse > 0 && _coduri != nullptr) {
-			for (int i = 0; i < this->nrProduse; i++)
+			for (int i = 0; i < _nrProduse; i++)
 				adaugaCod(_coduri[i]);
 		}
 	}
@@ -86,7 +85,40 @@ public:
 		this->coduri = aux;
 		this->nrProduse++;
 	}
+
+	//get pe coduri
+	const int* getCoduri() {
+		return this->coduri;
+	}
+
+	//care respecta incapsularea
+	//utilizatorul este cel care dezaloca acea copie
+	int* getCoduriBun() {
+		int* copie = new int[this->nrProduse];
+		for (int i = 0; i < this->nrProduse; i++)
+			copie[i] = this->coduri[i];
+		return copie;
+	}
+
+	int getNrProduse() {
+		return this->nrProduse;
+	}
 };
+
+//fct globala care adauga un nou cod intr-un vector
+void adaugaCod(int*& v, int& n, int _cod) {
+	for (int i = 0; i < n; i++) {
+		if (v[i] == _cod)
+			return;
+	}
+	int* aux = new int[n + 1];
+	for (int i = 0; i < n; i++)
+		aux[i] = v[i];
+	aux[n] = _cod;
+	delete[] v;
+	v = aux;
+	n++;
+}
 
 int main() {
 	int v[]{ 10,45,13,40,13, 12 };
@@ -96,5 +128,15 @@ int main() {
 	m1.afisare();
 	m1.adaugaCod(13);
 	m1.afisare();
+
+	cout << "\n------get si set-------\n";
+	int* vv = (int*)m1.getCoduri();
+	int n = m1.getNrProduse();
+	for (int i = 0; i < n; i++) {
+		cout << vv[i] << " ";
+	}
+	vv[0] = 1234;
+	m1.afisare();
+	delete[] vv;//pentru a nu avea memory leaks ( eliberarea zonei de memorie ocupata de copia din get)
 	return 0;
 }
