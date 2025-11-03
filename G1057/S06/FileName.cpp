@@ -104,11 +104,27 @@ public:
 		cout << "\nBuget: " << this->buget;
 		cout << "\n-------------";
 	}
+
+	~Student() {
+		if (this->note != nullptr) {
+			delete[] this->note;
+			this->note = nullptr;
+		}
+	}
 };
 
 int main() {
 	int note[]{ 10,7,4 };
 	Student s1("Gigel", 3, note, 120);
 	s1.afisare();
+	//constructor copiere
+	Student s2 = s1;
+	Student s3(s1);
+	s2.afisare();
+
+	
+	//op =
+	//destructor
+
 	return 0;
 }
