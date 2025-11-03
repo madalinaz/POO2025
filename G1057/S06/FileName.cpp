@@ -58,6 +58,24 @@ public:
 		}
 	}
 
+	//home ->chiar daca e const, ce nu este protejat din s?
+	Student(const Student& s) {
+		cout << "\nApel constructor copiere";
+		this->nume = s.nume;
+		if (s.nrNote > 0 && s.note != nullptr) {
+			this->nrNote = s.nrNote;
+			this->note = new int[this->nrNote];
+			for (int i = 0; i < this->nrNote; i++) {
+				this->note[i] = s.note[i];
+			}
+		}
+		else {
+			this->nrNote = 0;
+			this->note = nullptr;
+		}
+		this->buget = s.buget;
+	}
+
 	void setNote(int* _note, int _nrNote) {
 		if (_note != nullptr && _nrNote > 0) {
 			delete[] this->note;
@@ -106,6 +124,7 @@ public:
 	}
 
 	~Student() {
+		cout << "\nApel destructor";
 		if (this->note != nullptr) {
 			delete[] this->note;
 			this->note = nullptr;
@@ -122,9 +141,10 @@ int main() {
 	Student s3(s1);
 	s2.afisare();
 
-	
 	//op =
 	//destructor
+
+
 
 	return 0;
 }
