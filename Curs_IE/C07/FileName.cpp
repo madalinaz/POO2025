@@ -17,7 +17,21 @@ public:
 	}
 };
 
+void f(int x) {
+	cout << "\n f(int)";
+}
 
+void f(int x, double y) {
+	cout << "\n f(int, double)";
+}
+
+void f(double x, int y) {
+	cout << "\n f(double, int)";
+}
+
+void f(double x, double y) {
+	cout << "\n f(double, double)";
+}
 
 int main() {
 	Produs p1("carte", 120);
