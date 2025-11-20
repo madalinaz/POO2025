@@ -3,8 +3,8 @@ using namespace std;
 
 //= done
 // comparatie (< <= > >= != ==) done
-// negatie (!)
-// += -= /= *=
+// negatie (!) done
+// += -= /= *= done
 // ++ (pre si post)
 // << si >>
 // operator index []
@@ -60,6 +60,16 @@ public:
 	}
 
 	//friend bool operator>(int _x, const Produs& p);
+
+	//!!!!return prin & doar daca ne bazam pe obj (NU se distruge)
+	Produs& operator+=(double _x) {
+		this->pret += _x;
+		return *this;
+	}
+
+	bool operator!() {
+		return this->denumire == "Anonim";
+	}
 };
 
 //functie globala ptr ca I operand nu este Produs
@@ -77,6 +87,16 @@ int main() {
 	Produs p1("carte", 120);
 	Produs p2("stilou", 1000);
 
+	cout << "\n------ += ------";
+	p1 += 10;//marim stocul cu 10 unitati
+	p1.afisare();
 
+	cout << "\n------ ! ------";
+	if (!p1)
+		cout << "\nP1 nu are denumire";
+	else
+		cout << "\nInvers";
+	cout << "\n------ << ------";
+	cout << p1;
 	return 0;
 }
