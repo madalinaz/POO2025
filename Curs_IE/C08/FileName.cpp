@@ -6,7 +6,7 @@ using namespace std;
 // negatie (!) done
 // += -= /= *= done
 // ++ (pre si post)
-// << si >>
+// << si >> done
 // operator index []
 // cast/conversie
 //functie
@@ -30,6 +30,9 @@ class Produs {
 	double pret = 0;
 
 public:
+
+	Produs(){ }
+
 	Produs(string _denumire, double _pret) {
 		this->denumire = _denumire;
 		this->pret = _pret;
@@ -70,6 +73,10 @@ public:
 	bool operator!() {
 		return this->denumire == "Anonim";
 	}
+
+	friend ostream& operator<<(ostream& out, const Produs& p);
+
+	friend istream& operator>>(istream& in, Produs& p);
 };
 
 //functie globala ptr ca I operand nu este Produs
@@ -81,6 +88,24 @@ bool operator>(int _x, const Produs& p) {
 
 	//folosind Produs<int
 	return p < _x;
+}
+
+istream& operator>>(istream& in, Produs& p) {
+	//obj p deja exista
+	//de apelat destructorul
+	//pentru zona heap(alocata dinamic)
+
+	cout << "\nIntroduceti denumire: ";
+	in >> p.denumire;
+	cout << "Introduceti pret: ";
+	in >> p.pret;
+	return in;
+}
+
+ostream& operator<<(ostream& out, const Produs& p) {
+	out << "\nDenumire: " << p.denumire;
+	out << "\nPret: " << p.pret;
+	return out;
 }
 
 int main() {
@@ -97,6 +122,13 @@ int main() {
 	else
 		cout << "\nInvers";
 	cout << "\n------ << ------";
-	cout << p1;
+	cout << p1;//ostream << Produs
+	cout << p1 << p2;
+	cout << 2 << p1;
+
+	cout << "\n------ >> ------";
+	Produs p4;
+	cin >> p4;//istream >> Produs
+	cout << p4;
 	return 0;
 }
