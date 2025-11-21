@@ -5,12 +5,12 @@ using namespace std;
 // comparatie (< <= > >= != ==) done
 // negatie (!) done
 // += -= /= *= done
-// ++ (pre si post)
+// ++ (pre si post) done
 // << si >> done
 // operator index []
 // cast/conversie
 //functie
-// + - * /
+// + - * / done
 
 class exceptie {
 	string mesaj;
@@ -77,6 +77,32 @@ public:
 	friend ostream& operator<<(ostream& out, const Produs& p);
 
 	friend istream& operator>>(istream& in, Produs& p);
+
+	Produs operator+(double _x) const{
+		Produs rez = *this;
+		rez += _x;
+		return rez;
+	}
+
+	//forma pre-incrementare
+	//HOME1: Nu incalcam incapsularea si daca returnam Produs prin referinta??
+	Produs& operator++() {
+		this->pret++;
+		return *this;//returneaza starea de DUPA incrementare
+	}
+
+	//forma post-incrementare
+	Produs operator++(int) {
+		Produs copie = *this;
+		this->pret++;
+		return copie;//returnez starea de DINAINTE de incrementare
+	}
+
+	//HOME2: de ce doar prin clasa???
+	char operator[](int _index) {
+		//validari pentru _index
+		return this->denumire[_index];
+	}
 };
 
 //functie globala ptr ca I operand nu este Produs
@@ -108,6 +134,10 @@ ostream& operator<<(ostream& out, const Produs& p) {
 	return out;
 }
 
+Produs operator+(double _x, const Produs& p) {
+	return p + _x;
+}
+
 int main() {
 	Produs p1("carte", 120);
 	Produs p2("stilou", 1000);
@@ -128,7 +158,27 @@ int main() {
 
 	cout << "\n------ >> ------";
 	Produs p4;
-	cin >> p4;//istream >> Produs
+	//cin >> p4;//istream >> Produs
 	cout << p4;
+
+	cout << "\n------ + ------";
+	p4 = p2 + 10;
+	p4 = 10 + p2;
+	//Produs + Produs
+
+	cout << "\n------ ++ pre ------";
+	cout << p1 << p2;
+	p2 = ++p1;
+	cout << p1 << p2;
+
+	cout << "\n------ ++ post ------";
+	cout << p1 << p2;
+	p2 = p1++;
+	cout << p1 << p2;
+
+	cout << "\n------ [] ------";
+	char caracter = p2[2];
+	//Produs [] int
+	//OBLIGATORIU PRIN METH MEMBRA
 	return 0;
 }
