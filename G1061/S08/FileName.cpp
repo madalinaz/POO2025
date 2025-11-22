@@ -198,5 +198,7 @@ int main() {
 		//to do in situatia in care metoda a fost apelata cu input neconform
 		cout <<endl<< ex.what();//echivalent cu un getMesaj()
 	}
+	
+
 	return 0;
 }
