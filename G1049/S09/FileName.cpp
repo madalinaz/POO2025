@@ -81,7 +81,6 @@ public:
 			if (rez.note != nullptr) {
 				delete[] rez.note;
 				rez.note = nullptr;
-				rez.nrNote = 0;
 			}
 			rez.note = new int[rez.nrNote];
 			int k = 0;
@@ -93,10 +92,58 @@ public:
 		return rez;
 	}
 
+	//forma post-fixata
+	Student operator--(int) {
+		Student copie = *this;
+		for (int i = 0; i < this->nrNote; i++) {
+			if (this->note[i] > 1)
+				this->note[i]--;
+		}
+		return copie;//returnam starea obj de dinainte de decrementare
+	}
+
+	//forma pre-fixata
+	Student& operator--() {
+		for (int i = 0; i < this->nrNote; i++) {
+			if (this->note[i] > 1)
+				this->note[i]--;
+		}
+		return *this;//returnam versiunea obiectului de dupa decrementare
+	}
+
 	friend ostream& operator<<(ostream& out, const Student& s);
+	friend istream& operator>>(istream& in, Student& s);
 };
 
 int Student::notaTrecere = 5;
+
+//TO DO HOME
+//de regestionat operatorul >> astfel incat la adaugarea de noi note sa se apeleze operatorul += care adauga cate o noua nota
+//in acest caz, mecanismul de try-catch este gestionat in functia care supraincarca operatorul>>
+
+istream& operator>>(istream& in, Student& s) {
+	//obj s deja exista
+	if (s.note != nullptr) {
+		delete[] s.note;
+		s.note = nullptr;
+		s.nrNote = 0;
+	}
+	cout << "\nIntroduceti nume: ";
+	in >> s.nume;
+	cout << "\nIntroduceti nr note: ";
+	in >> s.nrNote;
+	if (s.nrNote <= 0) {
+		s.nrNote = 0;
+		s.note = nullptr;
+	}
+	else {
+		s.note = new int[s.nrNote];
+		cout << "Introduceti note: ";
+		for (int i = 0; i < s.nrNote; i++)
+			in >> s.note[i];
+	}
+	return in;
+}
 
 ostream& operator<<(ostream& out, const Student& s) {
 	out << "\nId: " << s.id;
@@ -130,5 +177,29 @@ int main() {
 	Student s2(13, "Maria", 2, note2);
 	Student s3(14);
 	s3 = s1 + s2;//returneaza un obj Student care are numele primului operand iar notele concatenarea celor 2 vectori
+	cout << s3;
+
+	//TO DO HOME
+	//s2 = s1 + 10;//returneaza un obj plecand de la s1 la care adaugam la sfarsit o nota nota
+	//daca nota nu e valida, aruncam exceptie
+
+	//s2 = s1 - 5;//returneaza un obj plecand de la s1 si elimina toate notele de 5
+
+	//s2 += 10;//adauga o noua nota(lucram direct pe this)
+
+	cout << "\n------ operator >> ---------";
+	Student s4(19);
+	//cin >> s4;// istream >> Student
+	cout << s4;
+
+	cout << "\n------ operator -- pre ---------";
+	cout << s4 << s3;
+	s4 = --s3;//fiecare nota scade cu un punct, daca se poate
+	cout << s4 << s3;
+
+	cout << "\n------ operator -- post ---------";
+	cout << s4 << s3;
+	s4 = s3--;//fiecare nota scade cu un punct, daca se poate
+	cout << s4 << s3;
 	return 0;
 }
