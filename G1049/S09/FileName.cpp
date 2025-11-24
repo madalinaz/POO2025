@@ -60,16 +60,75 @@ public:
 		}
 	}
 
+	int operator[](int _index) {
+		if (_index >= 0 && _index < this->nrNote) {
+			return this->note[_index];
+		}
+		else {
+			throw new exception("Indexul NU este valid");
+		}
+	}
 
+	//primul student este this iar cel de-al doilea este s
+	Student operator+(const Student& s) const{
+		Student rez = *this;
+		//adaug notele din s in rez
+		rez.nrNote = this->nrNote + s.nrNote;
+		if (rez.nrNote == 0)
+			rez.note = nullptr;
+		else {
+			//daca rez are note din cauza lui this
+			if (rez.note != nullptr) {
+				delete[] rez.note;
+				rez.note = nullptr;
+				rez.nrNote = 0;
+			}
+			rez.note = new int[rez.nrNote];
+			int k = 0;
+			for (int i = 0; i < this->nrNote; i++)
+				rez.note[k++] = this->note[i];
+			for (int i = 0; i < s.nrNote; i++)
+				rez.note[k++] = s.note[i];
+		}
+		return rez;
+	}
+
+	friend ostream& operator<<(ostream& out, const Student& s);
 };
 
 int Student::notaTrecere = 5;
 
-operator<<()
+ostream& operator<<(ostream& out, const Student& s) {
+	out << "\nId: " << s.id;
+	out << "\nNume: " << s.nume;
+	out << "\nNr note: " << s.nrNote;
+	out << "\nNote: ";
+	for (int i = 0; i < s.nrNote; i++)
+		out << s.note[i] << " ";
+	return out;
+}
+
 
 int main() {
 	int note[] = {10,6,4,8,3};
 	Student s1(12, "Gigel", 5, note);
 	cout << s1;//ostream << Student
+
+	cout << "\n------ operator [] ---------";
+	int nota;
+	try {
+		nota = s1[-3];//Student [] int
+		cout << endl << nota;
+	}
+	catch (exception* ex) {
+		cout << endl << ex->what();
+		delete ex;
+	}
+
+	cout << "\n------ operator + ---------";
+	int note2[] = { 10,9 };
+	Student s2(13, "Maria", 2, note2);
+	Student s3(14);
+	s3 = s1 + s2;//returneaza un obj Student care are numele primului operand iar notele concatenarea celor 2 vectori
 	return 0;
 }
