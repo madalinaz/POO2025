@@ -93,6 +93,7 @@ public:
 		}
 	}
 
+	//HOME: DE IMPLEMENTAT OPERATORUL FARA A UTILIZA APELUL CELUILALT OPERATOR +=
 	//preluam toate armele lui c in this
 	Caracter& operator+=(Caracter& c) {
 		if (this != &c) {
@@ -106,6 +107,40 @@ public:
 			c.nrArme = 0;
 		}
 		return *this;
+	}
+
+	//forma pre-fixata
+	Caracter& operator++() {
+		if (this->nrArme > 0) {
+			this->operator+=(this->putereArme[this->nrArme - 1]);
+		}
+		return *this;
+	}
+
+	//forma post-fixata
+	Caracter operator++(int) {
+		Caracter copie = *this;
+	/*	if (this->nrArme > 0) {
+			this->operator+=(this->putereArme[this->nrArme - 1]);
+		}*/
+		(*this).operator++();
+		//++(*this);
+		return copie;
+	}
+
+	Caracter operator/(int _x) const{
+		if (_x > 1) {
+			Caracter rez = *this;
+			delete[] rez.putereArme;
+			rez.putereArme = nullptr;
+			rez.nrArme = this->nrArme / _x;
+			if (rez.nrArme > 0) {
+				rez.putereArme = new double[rez.nrArme];
+				for (int i = 0; i < rez.nrArme; i++)
+					rez.putereArme[i] = this->putereArme[i];
+			}
+			return rez;
+		}
 	}
 };
 
@@ -143,8 +178,13 @@ int main() {
 	cout << c1;
 	c1 += c1;
 	cout << c1;
-	++c1;
-	//c2 = c1 / 2;
-
+	++c1;//dublam ultima arma, daca exista
+	c1.operator++();
+	cout << c1;
+	c1++;
+	c1.operator++(2);
+	cout << c1;
+	c2 = c1 / 2;//returnez un obj care ramane doar cu prima jumatate de puteri
+	cout << c2;
 	return 0;
 }
