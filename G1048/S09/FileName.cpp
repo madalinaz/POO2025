@@ -73,6 +73,16 @@ public:
 		}
 	}
 
+	//TEMA 2. DE REGESTIONAT ACEASTA IMPLEMENTARE ASTFEL INCAT SA NU NE FOLOSIM DE CELALALT OPERATOR +=
+	//actualizeaza this-ul prin preluarea din c a tuturor armelor
+	Caracter& operator+=(Caracter c) {
+		for (int i = 0; i < c.nrArme; i++) {
+			//this->operator+=(c.putereArme[i]);
+			(*this) += c.putereArme[i];
+		}
+		return *this;
+	}
+
 	friend ostream& operator<<(ostream& out, const Caracter& c);
 };
 
@@ -83,6 +93,7 @@ ostream& operator<<(ostream& out, const Caracter& c) {
 	out << "\nDenumire: " << c.denumire;
 	out << "\nNivel viata: " << c.nivelViata;
 	out << "\nNr arme: " << c.nrArme;
+	out << "\nArme: ";
 	for (int i = 0; i < c.nrArme; i++)
 		out << c.putereArme[i] << " ";
 	return out;
@@ -92,7 +103,8 @@ int main() {
 	Caracter c1(12, "Zburator 1");
 	cout << c1;
 	c1 += 10;//adaug o arma cu putere de lovire 10
-	//cout << c1;
+	c1 += c1 += 12;
+	cout << c1;
 	//c1++;//cresc nivelul de viata cu 10% fata de nivelul anterior
 	Caracter c2(13);
 	//c2 = 2 * c1;//returneaza un obj care are viata dublata in limita intervalului
