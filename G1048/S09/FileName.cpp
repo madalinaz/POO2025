@@ -53,11 +53,29 @@ public:
 			this->nrArme = 0;
 		}
 	}
+
+	friend ostream& operator<<(ostream& out, const Caracter& c);
 };
 
 int Caracter::minViata = 10;
 
-int main() {
+ostream& operator<<(ostream& out, const Caracter& c) {
+	out << "\nId: " << c.id;
+	out << "\nDenumire: " << c.denumire;
+	out << "\nNivel viata: " << c.nivelViata;
+	out << "\nNr arme: " << c.nrArme;
+	for (int i = 0; i < c.nrArme; i++)
+		out << c.putereArme[i] << " ";
+	return out;
+}
 
+int main() {
+	Caracter c1(12, "Zburator 1");
+	cout << c1;
+	//c1 += 10;//adaug o arma cu putere de lovire 10
+	//cout << c1;
+	//c1++;//cresc nivelul de viata cu 10% fata de nivelul anterior
+	Caracter c2(13);
+	//c2 = 2 * c1;//returneaza un obj care are viata dublata in limita intervalului
 	return 0;
 }
