@@ -88,7 +88,17 @@ public:
 			this->nrArme++;
 			return *this;
 		}
-		
+		else {
+			throw new exception("Puterea armei NU poate sa fie negativa!");
+		}
+	}
+
+	//preluam toate armele lui c in this
+	Caracter operator+=(Caracter c) {
+		for (int i = 0; i < c.nrArme; i++) {
+			this->operator+=(c.putereArme[i]);
+
+		}
 	}
 };
 
@@ -109,9 +119,20 @@ int main() {
 	Caracter c1(12, "Zburatorul");
 	Caracter c2(13);
 	cout << c1;
-	c1 += 12;
+	//TEMA 3: IMPLEMENTATI CONTEXTUL CARE CERE REINTRODUCEREA VALORII PUTERII DE ADAUGAT PANA ESTE VALIDA
+	//INTR-O FUNCTIE RECURSIVA
+	try {
+		c1 += 12;
+	}
+	catch (exception* ex) {
+		//to do in functie de ce se cere
+		cout << endl << ex->what();
+		delete ex;
+		//pot dezaloca pointerul inainte de apel recursiv
+		//APELAM RECURSIVITATEA
+	}
 	cout << c1;
-	//c1 += c2 += 10;
+	c1 += c2 += 10;
 	//c1 += c1;
 	//++c1;
 	//c2 = c1 / 2;
