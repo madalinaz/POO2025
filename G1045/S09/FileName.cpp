@@ -63,7 +63,7 @@ public:
 	friend ostream& operator<<(ostream& out, const Caracter& c);
 
 
-	Caracter operator+=(double _x) {
+	Caracter& operator+=(double _x) {
 		if (_x > 0) {
 			//V1
 			/*Caracter copie = *this;
@@ -94,11 +94,18 @@ public:
 	}
 
 	//preluam toate armele lui c in this
-	Caracter operator+=(Caracter c) {
-		for (int i = 0; i < c.nrArme; i++) {
-			this->operator+=(c.putereArme[i]);
-
+	Caracter& operator+=(Caracter& c) {
+		if (this != &c) {
+			for (int i = 0; i < c.nrArme; i++) {
+				//this->operator+=(c.putereArme[i]);
+				//operator+=(c.putereArme[i]);
+				(*this) += c.putereArme[i];
+			}
+			delete[] c.putereArme;
+			c.putereArme = nullptr;
+			c.nrArme = 0;
 		}
+		return *this;
 	}
 };
 
@@ -133,8 +140,10 @@ int main() {
 	}
 	cout << c1;
 	c1 += c2 += 10;
-	//c1 += c1;
-	//++c1;
+	cout << c1;
+	c1 += c1;
+	cout << c1;
+	++c1;
 	//c2 = c1 / 2;
 
 	return 0;
