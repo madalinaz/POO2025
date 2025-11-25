@@ -3,6 +3,9 @@ using namespace std;
 
 
 //TEMA1 ->clasa Caracter in care putereArme este alocat static
+
+//TEMA2 ->putereArme este alocat dinamic dar iti dubleaza spatiul de stocare atunci cand trebuie adaugam un element si nu am loc
+//!!!pentru inceput, puteti avea o alocare default(5 elem, de ex)
 class Caracter {
 	const int id;
 	string denumire = "-";
@@ -57,11 +60,61 @@ public:
 		}
 	}
 
+	friend ostream& operator<<(ostream& out, const Caracter& c);
+
+
+	Caracter operator+=(double _x) {
+		if (_x > 0) {
+			//V1
+			/*Caracter copie = *this;
+			if (this->putereArme != nullptr) {
+				delete[] this->putereArme;
+				this->putereArme = nullptr;
+				this->nrArme = 0;
+			}
+			this->putereArme = new double[copie.nrArme + 1];
+			for (int i = 0; i < copie.nrArme; i++)
+				this->putereArme[i] = copie.putereArme[i];
+			this->putereArme[copie.nrArme] = _x;
+			this->nrArme = copie.nrArme + 1;*/
+
+			//V2
+			double* rez = new double[this->nrArme + 1];
+			for (int i = 0; i < this->nrArme; i++)
+				rez[i] = this->putereArme[i];
+			rez[this->nrArme] = _x;
+			delete[] this->putereArme;
+			this->putereArme = rez;
+			this->nrArme++;
+			return *this;
+		}
+		
+	}
 };
 
 int Caracter::minViata = 10;
 
+ostream& operator<<(ostream& out, const Caracter& c) {
+	out << "\nId: " << c.id;
+	out << "\nDenumire: " << c.denumire;
+	out << "\nNivel viata: " << c.nivelViata;
+	out << "\nNr arme: " << c.nrArme;
+	out << "\nArme: ";
+	for (int i = 0; i < c.nrArme; i++)
+		out << c.putereArme[i] << " ";
+	return out;
+}
+
 int main() {
+	Caracter c1(12, "Zburatorul");
+	Caracter c2(13);
+	cout << c1;
+	c1 += 12;
+	cout << c1;
+	//c1 += c2 += 10;
+	//c1 += c1;
+	//++c1;
+	//c2 = c1 / 2;
 
 	return 0;
 }
