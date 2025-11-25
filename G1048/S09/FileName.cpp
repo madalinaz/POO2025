@@ -1,6 +1,8 @@
 #include<iostream>
 using namespace std;
 
+
+//TEMA1 ->clasa Caracter in care putereArme este alocat static
 class Caracter {
 	const int id;
 	string denumire = "-";
@@ -54,6 +56,23 @@ public:
 		}
 	}
 
+	Caracter& operator+=(double _x) {
+		if (_x > 0) {
+			Caracter copie = *this;
+			if (this->putereArme != nullptr) {
+				delete[] this->putereArme;
+				this->putereArme = nullptr;
+				this->nrArme = 0;
+			}
+			this->putereArme = new double[copie.nrArme + 1];
+			for (int i = 0; i < copie.nrArme; i++)
+				this->putereArme[i] = copie.putereArme[i];
+			this->putereArme[copie.nrArme] = _x;
+			this->nrArme = copie.nrArme + 1;
+			return *this;
+		}
+	}
+
 	friend ostream& operator<<(ostream& out, const Caracter& c);
 };
 
@@ -72,7 +91,7 @@ ostream& operator<<(ostream& out, const Caracter& c) {
 int main() {
 	Caracter c1(12, "Zburator 1");
 	cout << c1;
-	//c1 += 10;//adaug o arma cu putere de lovire 10
+	c1 += 10;//adaug o arma cu putere de lovire 10
 	//cout << c1;
 	//c1++;//cresc nivelul de viata cu 10% fata de nivelul anterior
 	Caracter c2(13);
