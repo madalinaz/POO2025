@@ -157,6 +157,17 @@ ostream& operator<<(ostream& out, const Caracter& c) {
 	return out;
 }
 
+class Joc {
+	int nivelDificultate;
+	int nrCaractere;
+	//o colectie de caractere(obligatoriu referinte la obj de tip Caracter)(De ce nu se pot stoca obiecte de tip Caracter???)
+	//de implementat constructori, op=,destructor
+	//de supraincarcat operatori care sa faciliteze metodele de adaugare si eliminare de Caractere din vectorul de Caractere
+	//de propus metode care sa permita atacul intre 2 sau mai multe Caractere
+	//daca un Caracter ajunge la nivelViata=0, atunci este eliminat din Joc
+	//de propus atacul altul Caracter cu o arma la alegere din colectia de arme
+};
+
 int main() {
 	Caracter c1(12, "Zburatorul");
 	Caracter c2(13);
