@@ -6,10 +6,10 @@ using namespace std;
 //+= -= /= done
 //!(negatie) done
 // ++ (pre si post) done
-// cast/conversie
+// cast/conversie done
 // index [] done
 // << >> done
-// + - / *
+// + - / * done
 //functie
 
 class Produs {
@@ -143,6 +143,37 @@ public:
 	explicit operator int() {
 		return this->stoc;
 	}
+
+	//primul operand este this
+	//al doilea este p
+	Produs operator+(const Produs& p) const {
+		if (strcmp(this->denumire, p.denumire) == 0) {
+			Produs rez = *this;
+			rez += p.stoc;
+			return rez;
+		}
+		else {
+			throw exception("produsele NU au aceeasi denumire");
+		}
+	}
+
+	double operator/(int _x) {
+		if (_x > 0) {
+			return this->pret / _x;
+		}
+		else {
+			throw exception("Nu putem imparti la ceva <=0");
+		}
+	}
+
+	//intoarce un nou obj dar are are denumireNoua
+	Produs operator()(const char* _denumireNoua) {
+		Produs copie(*this);
+		delete[]copie.denumire;
+		copie.denumire = new char[strlen(_denumireNoua) + 1];
+		strcpy(copie.denumire, _denumireNoua);
+		return copie;
+	}
 };
 
 
@@ -239,5 +270,38 @@ int main() {
 	cout << "\n------operator cast/conversie---------";
 	string denumire = p1;//sa extrag dintr-un Produs denumirea sa
 	int stoc = (int)p1;//extrag int-un dintr-un Produs(stoc)
+
+	Produs p3(100, "Carte", 10, 123);
+	try {
+		p3 = p2 + p3;//returneaza un nou obj prin adunarea a doua Produse doar daca au aceeeasi denumire
+		cout << p3;
+	}
+	catch (exception ex) {
+		//to do in functie de context
+		cout << endl << ex.what();
+	}
+	
+	//HOME ->DE IMPLEMENTAT UN CONTEXT CARE SA REAPELEZE OPERATORUL / PANA LA IMPARTIREA CU O VALOARE POZITIVA
+	//VALOAREA ESTE CITITA DE LA TASTATURA
+	//V1. WHILE SAU DO-WHILE
+	//V2. FUNCTIE RECURSIVA
+	try {
+		double pret;
+		pret = p2 / -2;
+		cout << endl << "Pretul este: " << pret;
+	}
+	catch (exception ex) {
+		cout << endl << ex.what();
+	}
+
+	cout << "\n----- operator functie ------";
+	Produs p4;
+	Produs v[10];
+	int n = 5;
+	//bool gasit = p4(v, n);//verificam daca exista p4 in v
+	p2 = p1("denumire noua");//returneaza un nou obj pentru care schimba denumirea
+	//stoc = p1();//returneaza stocul lui p1
+	cout << p2;
+
 	return 0;
 }
