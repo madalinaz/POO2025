@@ -15,10 +15,12 @@
 #include<iostream>
 using namespace std;
 
+//HOME1 ->DE IMPLEMENTAT LOGICA CLASEI DAR PE ALOCARE STATICA A PUTERILOR ARMELOR
+//HOME2 ->ALOCARE DINAMICA HIBRID (LA INCEPUT ARE UN DEFAULT SPATIU PENTRU ARME DE 5. ATUNCI CAND IL UMPLE, REDIMENSIONEAZA PE DUBLU)
 class Caracter {
 	const int id;
 	string denumire = "-";
-	int nivelViata = 100;//apartine intervalului (0;100]
+	int nivelViata = 80;//apartine intervalului (0;100]
 	int nrArme = 0;
 	double* putereArme = nullptr;
 	static int minViata;
@@ -91,7 +93,60 @@ public:
 			this->nrArme++;
 			return *this;
 		}
-		
+
+	}
+
+	//forma-prefixata
+	Caracter& operator++() {
+		this->nivelViata *= 1.1;
+		if (this->nivelViata > 100) {
+			this->nivelViata = 100;
+		}
+		return *this;//returnam obj de dupa modificare
+	}
+
+	//forma-postfixata
+	Caracter operator++(int) {
+		Caracter copie = *this;
+		++(*this);
+		//this->operator++();
+		return copie;//returnam obj de dinainte de modificare
+
+	}
+
+	//cast explicit la double
+	explicit operator double() {
+		double total = 0;
+		for (int i = 0; i < this->nrArme; i++)
+			total += this->putereArme[i];
+		return total;
+	}
+
+	//HOME, de reimplementat dar fara utilizarea lui +=
+	Caracter operator+(const Caracter& c) const{
+		Caracter rez = *this;
+		for (int i = 0; i < c.nrArme; i++)
+			rez += c.putereArme[i];
+		return rez;
+	}
+
+	//HOME, fara a apela operatorul + tocmai implementat
+	//this+=c; -> this = this+c;
+	Caracter operator+=(const Caracter& c) {
+		Caracter copie = *this;
+		*this = *this + c;
+		return *this;
+	}
+
+	//this-ul il ataca pe c
+	void operator>>(Caracter& c) {
+		if (this->nivelViata > Caracter::minViata) {
+			//this->operator+=(c);
+			(*this) += c;
+			delete[] c.putereArme;
+			c.putereArme = nullptr;
+			c.nrArme = 0;
+		}
 	}
 
 	friend ostream& operator<<(ostream& out, const Caracter& c);
@@ -116,15 +171,26 @@ int main() {
 	cout << c1;
 	c1 += 10;//adaugam o noua arma
 	cout << c1;
-	//c1 += 12;
-	//c1++;//marim viata cu 10% fata de cat era inainte in limita acceptata
-	//++c1;
-	//double totalArme = c1;//cast/conversie => returnez suma tuturor puterilor armelor
+	c1 += 12;
+	cout << "\n----------- ++(pre) ----------";
+	cout << c2 << c1;
+	c2 = ++c1;
+	cout << c2 << c1;
+	cout << "\n----------- ++(post) ----------";
+	cout << c2 << c1;
+	c2 = c1++;//marim viata cu 10% fata de cat era inainte in limita acceptata
+	cout << c2 << c1;
+	double totalArme = (double)c1;//cast/conversie => returnez suma tuturor puterilor armelor
+	cout << endl << "Total arme: " << totalArme;
 	Caracter c3(15);
 	//cin >> c3;
-	//c3 = c1 + c2;//returneaza un nou caracter concatenand puterile lui c1 si c2
-	//c3 = c1 + 10;//returneaza un nou caracter suplimentand viata cu 10 unitati
-	//c3 += c1;//echivalent de tipul c3 = c3 + c1;
-	//c3 >> c1;//c3 ataca pe c1, preluand toate armele
+	c3 = c1 + c2;//returneaza un nou caracter concatenand puterile lui c1 si c2
+	cout << c3;
+	//double d = 12.5;
+	//c3 = d + 5;
+	
+	//c3 = c1 + 10;//returneaza un nou caracter suplimentand viata cu 10 unitati (HOME)
+	c3 += c1;//echivalent de tipul c3 = c3 + c1;
+	c3 >> c1;//c3 ataca pe c1, preluand toate armele
 	return 0;
 }
