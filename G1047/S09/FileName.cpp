@@ -118,24 +118,61 @@ public:
         }
     }
 
-    Joc& operator+=(Obiect2D obj) {
+    Joc& operator+=(const Obiect2D& obj) {
         if (obj.pozX <= this->xMax && obj.pozY <= this->yMax) {
             //V1
-            Joc copie = *this;
+           /* Joc copie = *this;
             delete[] this->lista;
             this->lista = new Obiect2D[this->nrObiecte + 1];
             for (int i = 0; i < this->nrObiecte; i++)
                 this->lista[i] = copie.lista[i];
             this->lista[this->nrObiecte] = obj;
             this->nrObiecte++;
-            return *this;
+            return *this;*/
 
             //V2
             Obiect2D *aux = new Obiect2D[this->nrObiecte + 1];
             for (int i = 0; i < this->nrObiecte; i++)
                 aux[i] = this->lista[i];
-
+            aux[this->nrObiecte] = obj;
+            delete[] this->lista;
+            this->lista = aux;
+            this->nrObiecte++;
+            return *this;
         }
+        else {
+            throw new exception("Obj nu este in limitele canvasului");
+        }
+    }
+
+    //forma pre-fixata
+    Joc& operator++() {
+        this->xMax++;
+        this->yMax++;
+        return *this;//returneaza starea obj de dupa modificare
+    }
+
+    //forma post-fixata
+    Joc operator++(int) {
+        Joc copie = *this;
+        //aceeasi logica de incrementare precum ++ pre fixat
+        ++(*this);
+        //this->operator++();
+        return copie;
+    }
+
+    //in operator + operanzii NU se modifica
+    Joc operator+(const Joc& joc) const{
+        Joc copie = *this;
+        for (int i = 0; i < joc.nrObiecte; i++) {
+            try {
+                copie += joc.lista[i];
+            }
+            catch (exception* ex) {
+                delete ex;
+            }
+        }
+        return copie;
     }
 
     friend ostream& operator<<(ostream& out, const Joc& j);
@@ -168,16 +205,36 @@ int main() {
     Joc joc1("Gigel", 100, 100, 3, v);
     cout << joc1;
     //vreau sa rezolv problema dimensiunilor maxime ale unui joc
-    joc1 += obj1;
-    cout << joc1;
-    //joc1++;
-    //++joc1;
+    Obiect2D obj4(TipObiect::AVION, 1000, 10);
+    try {
+        joc1 += obj4;
+        cout << joc1;
+    }
+    catch (exception* ex) {
+        cout << endl << ex->what();
+        delete ex;
+    }
+
+    cout << "\n----------- ++ pre ------------";
+    Joc joc4;
+    cout << joc4 << joc1;
+    joc4 = ++joc1;
+    cout << joc4 << joc1;
+    cout << "\n----------- ++ post ------------";
+    cout << joc4 << joc1;
+    joc4 = joc1++;
+    cout << joc4 << joc1;
 
     Joc joc2;
-    Joc joc3("Costel", 150, 150, 2, v);
-    //joc2 = joc1 + joc3;
+    Joc joc3("Costel", 1005, 1005, 2, v);
+    joc3 += obj4;
+    joc2 = joc1 + joc3;//returneaza un nou joc care contine toate obiectele care pot intra in canvasul definit de joc1
+    cout << joc2;
+    //HOME
+   // int nrObiecte;
+    //nrObiecte = joc1 + joc2;
 
-   // double nivelViata = obj1;
+    joc1 += joc2;
 
     
     return 0;
