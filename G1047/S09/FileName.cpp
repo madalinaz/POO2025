@@ -29,6 +29,7 @@ public:
 
     friend ostream& operator<<(ostream& out, const Obiect2D& o);
 
+    friend class Joc;
 };
 
 class Joc {
@@ -116,11 +117,44 @@ public:
             this->lista = nullptr;
         }
     }
+
+    Joc& operator+=(Obiect2D obj) {
+        if (obj.pozX <= this->xMax && obj.pozY <= this->yMax) {
+            //V1
+            Joc copie = *this;
+            delete[] this->lista;
+            this->lista = new Obiect2D[this->nrObiecte + 1];
+            for (int i = 0; i < this->nrObiecte; i++)
+                this->lista[i] = copie.lista[i];
+            this->lista[this->nrObiecte] = obj;
+            this->nrObiecte++;
+            return *this;
+
+            //V2
+            Obiect2D *aux = new Obiect2D[this->nrObiecte + 1];
+            for (int i = 0; i < this->nrObiecte; i++)
+                aux[i] = this->lista[i];
+
+        }
+    }
+
+    friend ostream& operator<<(ostream& out, const Joc& j);
 };
 
 ostream& operator<<(ostream& out, const Obiect2D& o) {
     out << "Obiect " << o.tip << ", nivel viata: " << o.nivelViata << ", coordante ("
         << o.pozX << ", " << o.pozY << ")" << endl;
+    return out;
+}
+
+ostream& operator<<(ostream& out, const Joc& j) {
+    out << "\nUtilizator: " << j.utilizator;
+    out << "\nX max: " << j.xMax;
+    out << "\nY max: " << j.yMax;
+    out << "\nNr obiecte: " << j.nrObiecte;
+    out << "\nObiecte: \n";
+    for (int i = 0; i < j.nrObiecte; i++)
+        out << j.lista[i];
     return out;
 }
 
@@ -130,5 +164,21 @@ int main() {
     Obiect2D obj3(TipObiect::ROCA, 20, 25);
     cout << obj1;
 
+    Obiect2D v[] = { obj1,obj2,obj3 };
+    Joc joc1("Gigel", 100, 100, 3, v);
+    cout << joc1;
+    //vreau sa rezolv problema dimensiunilor maxime ale unui joc
+    joc1 += obj1;
+    cout << joc1;
+    //joc1++;
+    //++joc1;
+
+    Joc joc2;
+    Joc joc3("Costel", 150, 150, 2, v);
+    //joc2 = joc1 + joc3;
+
+   // double nivelViata = obj1;
+
+    
     return 0;
 }
