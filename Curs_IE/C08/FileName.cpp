@@ -9,7 +9,7 @@ using namespace std;
 // << si >> done
 // operator index []
 // cast/conversie
-//functie
+// functie
 // + - * / done
 
 class exceptie {
@@ -103,6 +103,13 @@ public:
 		//validari pentru _index
 		return this->denumire[_index];
 	}
+
+	//cast la char*
+	explicit operator char* () {
+		char* rez = new char[this->denumire.length() + 1];
+		strcpy(rez, this->denumire.data());
+		return rez;
+	}
 };
 
 //functie globala ptr ca I operand nu este Produs
@@ -180,5 +187,13 @@ int main() {
 	char caracter = p2[2];
 	//Produs [] int
 	//OBLIGATORIU PRIN METH MEMBRA
+
+	cout << "\n------ cast/conversiei ------";
+	char* denumire = (char*)p2;//apel cast explicit
+	cout << endl << "\nDenumire prin intermediul cast: " << denumire;
+	delete[] denumire;
+	//double pret = p2;
+	//int pret = p2;
+	//string denumireString = p2;
 	return 0;
 }
