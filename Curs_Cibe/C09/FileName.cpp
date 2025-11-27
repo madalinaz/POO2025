@@ -1,6 +1,25 @@
 #include<iostream>
 using namespace std;
 
+class Grupa {
+
+};
+
+//Serie has a colectie de grupe
+class Serie1 {
+	Grupa lista[10];//vector alocat static de obj de tip Grupa
+	int nrGrupe;
+};
+
+class Serie2 {
+	Grupa* lista;//vector alocat dinamic de obj de tip Grupa
+	int nrGrupe;
+};
+
+
+
+
+
 string generareCNP() {
 	return "123456789";
 }
