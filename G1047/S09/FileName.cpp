@@ -27,6 +27,8 @@ public:
             << this->pozX << ", " << this->pozY << ")" << endl;
     }
 
+    friend ostream& operator<<(ostream& out, const Obiect2D& o);
+
 };
 
 class Joc {
@@ -116,7 +118,17 @@ public:
     }
 };
 
+ostream& operator<<(ostream& out, const Obiect2D& o) {
+    out << "Obiect " << o.tip << ", nivel viata: " << o.nivelViata << ", coordante ("
+        << o.pozX << ", " << o.pozY << ")" << endl;
+    return out;
+}
+
 int main() {
+    Obiect2D obj1(TipObiect::AVION, 10, 10);
+    Obiect2D obj2(TipObiect::AVION, 25, 30);
+    Obiect2D obj3(TipObiect::ROCA, 20, 25);
+    cout << obj1;
 
     return 0;
 }
