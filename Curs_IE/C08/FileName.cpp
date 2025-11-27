@@ -33,6 +33,11 @@ public:
 
 	Produs(){ }
 
+	//cast "mascat" de la double la Produs 
+	explicit Produs(double _pret) {
+		this->pret = _pret;
+	}
+
 	Produs(string _denumire, double _pret) {
 		this->denumire = _denumire;
 		this->pret = _pret;
@@ -110,6 +115,22 @@ public:
 		strcpy(rez, this->denumire.data());
 		return rez;
 	}
+
+	bool operator==(const Produs& p) {
+		return this->denumire == p.denumire && this->pret == p.pret;
+	}
+
+	//operator functie
+	bool operator()(Produs* v, int nrProduse) {
+		for (int i = 0; i < nrProduse; i++)
+			if (*this == v[i])
+				return true;
+		return false;
+	}
+
+	double operator()() {
+		return this->pret;
+	}
 };
 
 //functie globala ptr ca I operand nu este Produs
@@ -144,6 +165,7 @@ ostream& operator<<(ostream& out, const Produs& p) {
 Produs operator+(double _x, const Produs& p) {
 	return p + _x;
 }
+
 
 int main() {
 	Produs p1("carte", 120);
@@ -195,5 +217,14 @@ int main() {
 	//double pret = p2;
 	//int pret = p2;
 	//string denumireString = p2;
+
+	double val = 10.5;
+	p1 = (Produs)(val + 5);//apel constructor in versiune implicita
+	//op = in clasa Produs care primeste un double
+
+	cout << "\n------ functie ------";
+	Produs vp[10] = { p1,p2 };
+	bool gasit = p1(vp, 2);
+	int pret = p1();
 	return 0;
 }
