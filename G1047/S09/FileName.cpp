@@ -175,6 +175,21 @@ public:
         return copie;
     }
 
+    Joc& operator+=(const Joc& joc) {
+        *this = *this + joc;
+        return *this;
+    }
+
+    Joc& operator=(double _x) {
+        if (this->lista != nullptr) {
+            delete[] this->lista;
+            this->lista = nullptr;
+        }
+        this->xMax = _x;
+        this->yMax = _x;
+        return *this;
+    }
+
     friend ostream& operator<<(ostream& out, const Joc& j);
 };
 
@@ -235,6 +250,9 @@ int main() {
     //nrObiecte = joc1 + joc2;
 
     joc1 += joc2;
+
+    double val = 10.5;
+    joc1 = val + 100;
 
     
     return 0;
