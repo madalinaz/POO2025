@@ -6,17 +6,20 @@ string generareCNP() {
 }
 
 class Persoana {
+public:
 	const string CNP;
+protected:
 	string nume="-";
+private:
 	int varsta=0;
 
 public:
-
 	Persoana():CNP(generareCNP()) {
 		cout << "\nApel constructor fara param Persoana";
 	}
 
 	Persoana(string _nume, int _varsta):CNP(generareCNP()) {
+		cout << "\nApel constructor cu param Persoana";
 		this->nume = _nume;
 		this->varsta = _varsta;
 	}
@@ -48,8 +51,18 @@ ostream& operator<<(ostream& out, const Persoana& p) {
 	return out;
 }
 
+class Student: private Persoana {
+	//zona noua/extinderea plecand de la Persoana
+	string facultate;
+
+public:
+	Persoana::nume;
+};
+
 int main() {
 	Persoana p1;
 	cout << p1;
+	Student s1;
+	
 	return 0;
 }
