@@ -28,10 +28,12 @@ public:
 		return *this;
 	}
 
-	void afisare() {
-		cout << "\nDenumire: " << this->denumire << ", pret: " << this->pret;
-	}
+	friend ostream& operator<<(ostream& out, const Produs& p);
 };
+
+ostream& operator<<(ostream& out, const Produs& p) {
+	out << "\nDenumire: " << p.denumire << ", pret: " << p.pret;
+}
 
 //deep copy /shallow copy
 //obiect vs referinta 
@@ -158,14 +160,6 @@ public:
 		return *this;
 	}
 
-	//metoda afisare
-	void afisare()
-	{
-		cout << "\nWishlist: buget=" << this->buget << ", nr produse=" << this->nrProduse;
-		for (int i = 0; i < this->nrProduse; i++)
-			this->lista[i].afisare(); //apel metoda afisare din clasa Produs
-	}
-
 	//destructor
 	~Wishlist()
 	{
@@ -193,7 +187,16 @@ public:
 
 	}
 
+	friend ostream& operator<<(ostream& out, const Wishlist& w);
+
 };
+
+ostream& operator<<(ostream& out, const Wishlist& w) {
+	out << "\nWishlist: buget=" << w.buget << ", nr produse=" << w.nrProduse;
+	for (int i = 0; i < w.nrProduse; i++)
+		out << w.lista[i];
+	return out;
+}
 
 
 int main() {
