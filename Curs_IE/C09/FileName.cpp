@@ -8,12 +8,17 @@ string generareCNP() {
 class Persoana {
 public:
 	const string CNP;
-protected:
+public:
 	string nume="-";
 private:
 	int varsta=0;
 
 public:
+
+	void getInfo() {
+		cout << "\nAcestea sunt info despre persoana!";
+	}
+
 	Persoana():CNP(generareCNP()) {
 		cout << "\nApel constructor fara param Persoana";
 	}
@@ -52,9 +57,15 @@ ostream& operator<<(ostream& out, const Persoana& p) {
 }
 
 class Student: public Persoana {
-	string facultate;
-
 public:
+	string facultate;
+	string nume;
+public:
+
+	void getInfo() {
+		cout << "\nAcestea sunt info despre student!";
+	}
+
 	Student() {
 
 	}
@@ -64,20 +75,40 @@ public:
 	}
 };
 
+//functie globala care are nevoie de o Persoana si se transpune intr-o proprietate a obj de tip persoana
+
+void generareCazierJudiciar(Persoana p) {
+	//to do
+	cout << "\nS-a generat cazierul pentru " + p.CNP;
+}
+
 int main() {
 	Persoana p1("Costachescu Marcel",40);
 	cout << p1;
 	Student s1("Gigel", 19, "CSIE");
 	Persoana p2 = s1;//upcast
-	Student s2 = p1;
-	p2 = s1;
-	s2 = p1;
+	//Student s2 = p1;//downcast
+	p2 = s1;//upcast + op= persoana
+	//s2 = p1;
 
 	Student* ps = new Student();
 	ps = &s1;
 	Persoana* pp = new Persoana();
 	pp = &p1;
-	ps = &p1;
-	pp = &s1;
+	//ps = &p1; downcast pe pointeri
+	pp = &s1;//upcast pe pointeri
+
+	generareCazierJudiciar(p1);
+	generareCazierJudiciar(s1);
+
+	cout << "\nAccesare camp nume: ";
+	cout << endl << s1.nume;
+	cout << endl << s1.Persoana::nume;
+
+	cout << "\nMeth getInfo(): ";
+	s1.getInfo();
+	s1.Persoana::getInfo();
+	p1.getInfo();
+	//p1.Student::getInfo();
 	return 0;
 }
