@@ -51,18 +51,33 @@ ostream& operator<<(ostream& out, const Persoana& p) {
 	return out;
 }
 
-class Student: private Persoana {
-	//zona noua/extinderea plecand de la Persoana
+class Student: public Persoana {
 	string facultate;
 
 public:
-	Persoana::nume;
+	Student() {
+
+	}
+
+	Student(string _nume, int _varsta, string _facultate):Persoana(_nume,_varsta) {
+		this->facultate = _facultate;
+	}
 };
 
 int main() {
-	Persoana p1;
+	Persoana p1("Costachescu Marcel",40);
 	cout << p1;
-	Student s1;
-	
+	Student s1("Gigel", 19, "CSIE");
+	Persoana p2 = s1;//upcast
+	Student s2 = p1;
+	p2 = s1;
+	s2 = p1;
+
+	Student* ps = new Student();
+	ps = &s1;
+	Persoana* pp = new Persoana();
+	pp = &p1;
+	ps = &p1;
+	pp = &s1;
 	return 0;
 }
