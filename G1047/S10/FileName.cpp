@@ -55,6 +55,57 @@ ostream& operator<<(ostream& out, const Angajat& a) {
 	return out;
 }
 
+enum Grad {
+	ASIST, LECT, CONF, PROF
+};
+
+//CadruDidactic is a Angajat
+//mostenire/derivare/specializare
+class CadruDidactic:public Angajat {
+	Grad gradDidactic=Grad::ASIST;
+
+public:
+	CadruDidactic() {
+		cout << "\nApel constructor fara param CadruDidactic";
+	}
+
+	CadruDidactic(string _nume, float _salariuBaza, Grad _gradDidactic):Angajat(_nume,_salariuBaza) {
+		cout << "\nApel constructor cu toti param CadruDidactic";
+		this->gradDidactic = _gradDidactic;
+	}
+
+	CadruDidactic(const Angajat& a, Grad _gradDidactic):Angajat(a) {
+		cout << "\nApel constructor cu toti param 2 CadruDidactic";
+		this->gradDidactic = _gradDidactic;
+	}
+
+	CadruDidactic(const Angajat& a) :Angajat(a) {
+		cout << "\nApel constructor cu param 3 CadruDidactic";
+		//cat de poate, un fel de DownCast
+	}
+
+	CadruDidactic(const CadruDidactic& cd):Angajat(cd)//upcast implicit->NU construieste copii
+	{
+		cout << "\nApel constructor copiere CadruDidactic";
+		this->gradDidactic = cd.gradDidactic;
+	}
+};
+
+void afisareSeparator(string mesaj) {
+	cout << "\n------------------- ";
+	cout << mesaj;
+	cout << " -----------";
+}
+
 int main() {
+	CadruDidactic cd1;
+	CadruDidactic cd2("Gigel", 1200, Grad::CONF);
+	CadruDidactic cd3(Angajat("Costel", 1500), Grad::CONF);
+	Angajat a("Maria", 1234);
+	CadruDidactic cd4 = a;//DownCast(merge doar pentru ca am adaugat acel constructor in clasa CadruDidactic)
+	Angajat a2 = cd1;//Upcast(implicit disponibil)
+	afisareSeparator("constructor copiere");
+	CadruDidactic cd5 = cd4;
+	afisareSeparator("constructor copiere");
 	return 0;
 }
