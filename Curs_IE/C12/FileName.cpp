@@ -1,6 +1,19 @@
 #include<iostream>
 using namespace std;
 
+//interfata ->clasa care detine DOAR metode virtuale pure (interfata = contract)
+class IPrintabil {
+public:
+	virtual void printare() = 0;
+};
+
+//clasa abstracta ->clasa care detine cel putin o metoda virtuala pura
+class AbstractPersonaj {
+	string nume;
+	virtual void spuneCeva() = 0;//metoda virtuala pura
+	virtual void reactioneaza() = 0;
+};
+
 //modelam niste piese de teatru ->scenete ->participa diverse personaje
 
 class Personaj {
@@ -117,5 +130,8 @@ int main() {
 	pCerc = &cerc;
 	pfg = pCerc;//upcast pe pointeri
 	pfg->afisare();
+
+	//AbstractPersonaj personajAbstract;
+	AbstractPersonaj* pointerPersonajAbstract;
 	return 0;
 }
