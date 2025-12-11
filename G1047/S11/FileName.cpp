@@ -60,10 +60,6 @@ public:
 		this->nrSubordonati = _nrSubordonati;
 	}
 
-	Manager(Angajat a, int _nrSubordonati) :Angajat(a) {
-		this->nrSubordonati = _nrSubordonati;
-	}
-
 	Manager(const Manager& m) :Angajat(m) {
 		this->nrSubordonati = m.nrSubordonati;
 	}
@@ -79,8 +75,32 @@ public:
 	~Manager() {
 	}
 
+	float calculSalariu() {
+		return Angajat::calculSalariu() + this->nrSubordonati * 100;
+	}
+
 	friend ostream& operator<<(ostream& out, const Manager& m);
 };
+
+class Paznic :public Angajat {
+	int nrNoptiLucrate=0;
+	static float sporNoapte;
+
+public:
+	Paznic(string _nume, float _salariuBaza, int _nrNoptiLucrate) :Angajat(_nume, _salariuBaza) {
+		this->nrNoptiLucrate = _nrNoptiLucrate;
+	}
+
+	friend ostream& operator<<(ostream& out, const Paznic& m);
+};
+
+float Paznic::sporNoapte = 0.2;
+
+ostream& operator<<(ostream& out, const Paznic& m) {
+	out << (Angajat)m;
+	out << "\nNr nopti lucrate: " << m.nrNoptiLucrate;
+	return out;
+}
 
 ostream& operator<<(ostream& out, const Manager& m) {
 	out << (Angajat)m;
