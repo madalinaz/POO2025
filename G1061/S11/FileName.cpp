@@ -35,7 +35,7 @@ public:
 
 	friend ostream& operator<<(ostream& out, const Angajat& a);
 
-	float calculSalariu() {
+	virtual float calculSalariu() {
 		return this->salariuBaza;
 	}
 
@@ -154,6 +154,14 @@ int main() {
 	for (int i = 0; i < 3; i++) {
 		totalSalarii += v[i].calculSalariu();
 	}
+	cout << "\nTotal salarii has a obiecte: " << totalSalarii;
+
+	Angajat* vp[] = { &a1,&m1,&p1 };
+	float totalSalarii2 = 0;
+	for (int i = 0; i < 3; i++) {
+		totalSalarii2 += vp[i]->calculSalariu();
+	}
+	cout << "\nTotal salarii has a pointeri: " << totalSalarii2;
 	//meth virtuale
 	//meth virtuale pure
 	//clase abstracte; interfete
