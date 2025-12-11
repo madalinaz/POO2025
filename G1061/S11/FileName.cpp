@@ -146,6 +146,14 @@ int main() {
 	cout << "\nCalcul salariu manager: " << m1.calculSalariu();
 	cout << "\nCalcul salariu paznic: " << p1.calculSalariu();
 
+	//colectie formata din toti angajatii companiei
+	//vreau sa le calculez salariul total de plata la sf de luna
+
+	Angajat v[] = { a1,m1,p1 };
+	float totalSalarii = 0;
+	for (int i = 0; i < 3; i++) {
+		totalSalarii += v[i].calculSalariu();
+	}
 	//meth virtuale
 	//meth virtuale pure
 	//clase abstracte; interfete
