@@ -131,11 +131,10 @@ int main() {
 
 	cout << "\n-------------LUCRUL CU FISIERE TEXT---------------";
 	ofstream g("evenimente.txt");
-	//ifstream f("evenimente.txt");//ifstream is a istream
+	//ifstream f("evenimente.txt");
 	
 	cout << "\n-------------LUCRUL CU FISIERE BINARE---------------";
-	fstream fileOut("colectie.bin", ios::out | ios::binary);
-
+	//fstream fileOut("colectie.bin", ios::out | ios::binary);
 	//fstream fileIn("colectie.bin", ios::in | ios::binary);
 
 	return 0;
