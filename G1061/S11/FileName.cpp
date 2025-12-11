@@ -1,7 +1,17 @@
 #include<iostream>
 using namespace std;
 
-class Angajat {
+//o clasa cu cel putin o meth virtuala pura => clasa abstracta
+//2 metode virtuale pure
+//clasa Om, in caz particular, este chiar interfata(clasa abstracta care are doar meth virtuale pure)
+//interfata = Contract
+class Om {
+public:
+	virtual void afisare() = 0;
+	virtual float calculSalariu() = 0;
+};
+
+class Angajat:public Om {
 
 protected:
 	string nume = "Anonim";
@@ -37,6 +47,10 @@ public:
 
 	virtual float calculSalariu() {
 		return this->salariuBaza;
+	}
+
+	void afisare() override{
+		cout << "\nAcesta este un angajat";
 	}
 
 	~Angajat() {
@@ -136,7 +150,6 @@ ostream& operator<<(ostream& out, const Paznic& p) {
 float Paznic::sporNoapte = 0.2;
 
 int main() {
-	
 
 	//depend upon the abstract, not upon the concrete
 	Angajat a1("Angajat Gigel", 1000);
@@ -162,10 +175,14 @@ int main() {
 		totalSalarii2 += vp[i]->calculSalariu();
 	}
 	cout << "\nTotal salarii has a pointeri: " << totalSalarii2;
+
+	/*Om* vpo[]= { &a1,&m1,&p1 };
+	vpo[0]->display();*/
 	//meth virtuale
 	//meth virtuale pure
 	//clase abstracte; interfete
 
-	
+	//Om om;
+	Om* pOm;//aici vom pointa catre clase derivate din clasa noastra abstracta care obligatoriu vor avea si o implementare concreta a meth virtuale pure expuse in clasa de baza abstracta
 	return 0;
 }
