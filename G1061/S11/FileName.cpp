@@ -79,6 +79,11 @@ public:
 	~Manager() {
 	}
 
+	float calculSalariu() {
+		//return this->salariuBaza + this->nrSubordonati * 100;
+		return Angajat::calculSalariu() + this->nrSubordonati * 100;
+	}
+
 	friend ostream& operator<<(ostream& out, const Manager& m);
 };
 
@@ -115,6 +120,10 @@ public:
 	~Paznic() {
 	}
 
+	float calculSalariu() {
+		return Angajat::calculSalariu() + this->nrZileNoapte * (1+Paznic::sporNoapte) * this->salariuBaza / 20;
+	}
+
 	friend ostream& operator<<(ostream& out, const Paznic& p);
 };
 
@@ -127,10 +136,16 @@ ostream& operator<<(ostream& out, const Paznic& p) {
 float Paznic::sporNoapte = 0.2;
 
 int main() {
-	Angajat a1("Gigel", 1200);
-	Angajat a2("Costel", 1500);
+	
 
-	//depend upon the abstract, not upon the concret
+	//depend upon the abstract, not upon the concrete
+	Angajat a1("Angajat Gigel", 1000);
+	Manager m1("Manager Gigel", 1000, 10);
+	Paznic p1("Paznic Gigel", 1000, 3);
+	cout << "\nCalcul salariu angajat: " << a1.calculSalariu();
+	cout << "\nCalcul salariu manager: " << m1.calculSalariu();
+	cout << "\nCalcul salariu paznic: " << p1.calculSalariu();
+
 	//meth virtuale
 	//meth virtuale pure
 	//clase abstracte; interfete
