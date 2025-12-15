@@ -1,6 +1,10 @@
 #include<iostream>
 using namespace std;
 
+//meth virtuale 
+//meth virtuale pure
+//clase abstracte
+//interfete
 
 class Angajat {
 
@@ -53,6 +57,46 @@ ostream& operator<<(ostream& out, const Angajat& a) {
 	return out;
 }
 
+class Manager:public Angajat {
+	int nrSubordonati = 0;
+
+public:
+	Manager(string _nume, float _salariuBaza, int _nrSubordonati) :Angajat(_nume, _salariuBaza) {
+		this->nrSubordonati = _nrSubordonati;
+	}
+
+	friend ostream& operator<<(ostream& out, const Manager& m);
+};
+
+ostream& operator<<(ostream& out, const Manager& m) {
+	out << (Angajat&)m;
+	out << "\nNr subordonati: " << m.nrSubordonati;
+	return out;
+}
+
+class Lucrator :public Angajat {
+	int nrNoptiLucrate = 0;
+
+public:
+	Lucrator(string _nume, float _salariuBaza, int _nrNoptiLucrate) :Angajat(_nume, _salariuBaza) {
+		this->nrNoptiLucrate = _nrNoptiLucrate;
+	}
+
+	friend ostream& operator<<(ostream& out, const Lucrator& m);
+};
+
+ostream& operator<<(ostream& out, const Lucrator& m) {
+	out << (Angajat&)m;
+	out << "\nNr nopti lucrate: " << m.nrNoptiLucrate;
+	return out;
+}
+
 int main() {
+	Angajat a1("Angajatul Gigel", 1000);
+	Manager m1("Manager Gigel", 1000, 10);
+	Lucrator l1("Lucrator Gigel", 1000, 5);
+	cout << "\nSalariu angajat: " << a1.calculSalariu();
+	cout << "\nSalariu manager: " << m1.calculSalariu();
+	cout << "\nSalariu lucrator: " << l1.calculSalariu();
 	return 0;
 }
