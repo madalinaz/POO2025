@@ -43,7 +43,7 @@ public:
 
 	friend ostream& operator<<(ostream& out, const Angajat& a);
 
-	float calculSalariu() {
+	virtual float calculSalariu() {
 		//pp ca exista o regula complexa de calcul salariu
 		return this->salariuBaza;
 	}
@@ -66,7 +66,7 @@ public:
 		this->nrSubordonati = _nrSubordonati;
 	}
 
-	float calculSalariu() {
+	float calculSalariu() override {
 		return Angajat::calculSalariu() + this->nrSubordonati * 100;
 	}
 
@@ -110,6 +110,18 @@ int main() {
 	cout << "\ncalcul salariu lucrator: " << l1.calculSalariu();
 
 	//companie
+	Angajat v[] = { a1,m1,l1 };//upcast
+	float totalSalarii = 0;
+	for (int i = 0; i < 3; i++) {
+		totalSalarii += v[i].calculSalariu();
+	}
+	cout << "\nTotal salarii folosind vector obiecte: " << totalSalarii;
 
+	Angajat* vp[] = { &a1,&m1,&l1 };
+	float totalSalarii2 = 0;
+	for (int i = 0; i < 3; i++) {
+		totalSalarii2 += vp[i]->calculSalariu();
+	}
+	cout << "\nTotal salarii folosind vector pointeri: " << totalSalarii2;
 	return 0;
 }
