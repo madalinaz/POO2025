@@ -1,6 +1,12 @@
 #include<iostream>
 using namespace std;
 
+//concept de virtualizare
+//meth virtuale
+//meth virtuale pure
+//clase abstracte
+//interfete
+
 class Angajat {
 
 protected:
@@ -8,9 +14,6 @@ protected:
 	float salariuBaza = 0;
 
 public:
-	void displayInfo() {
-		cout << "\nAfisare angajat";
-	}
 
 	Angajat() {
 
@@ -55,6 +58,24 @@ ostream& operator<<(ostream& out, const Angajat& a) {
 	return out;
 }
 
+class Manager :public Angajat {
+	int nrSubordonati = 0;
+
+public:
+	Manager(string _nume, float _salariuBaza, int _nrSubordonati):Angajat(_nume,_salariuBaza) {
+		this->nrSubordonati = _nrSubordonati;
+	}
+
+	friend ostream& operator<<(ostream& out, const Manager& m);
+};
+
+ostream& operator<<(ostream& out, const Manager& m) {
+	out << (Angajat)m;//upcast prin valoare explicit
+	out << "\nNr subordonati: " << m.nrSubordonati;
+	return out;
+}
+
 int main() {
+
 	return 0;
 }
