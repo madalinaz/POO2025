@@ -9,7 +9,7 @@ using namespace std;
 //interfete ->clasa abstracta care contine doar meth virtuale pure
 
 //depend upon the abstract, DO NOT depend upon the concrete
-//open-closed principle => many client specific interfaces are better then one general interface
+//open-closed principle + many client specific interfaces are better than one general interface
 
 class Printable {
 
