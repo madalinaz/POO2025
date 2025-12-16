@@ -93,5 +93,7 @@ ostream& operator<<(ostream& out, const Lucrator& m) {
 }
 
 int main() {
+	//gestionarea salariilor in cadrul companiei
+
 	return 0;
 }
