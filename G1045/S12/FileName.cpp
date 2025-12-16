@@ -66,6 +66,10 @@ public:
 		this->nrSubordonati = _nrSubordonati;
 	}
 
+	float calculSalariu() {
+		return Angajat::calculSalariu() + this->nrSubordonati * 100;
+	}
+
 	friend ostream& operator<<(ostream& out, const Manager& m);
 };
 
@@ -83,6 +87,10 @@ public:
 		this->nrOreSuplimentare = _nrOreSuplimentare;
 	}
 
+	float calculSalariu() {
+		return Angajat::calculSalariu() + this->nrOreSuplimentare * 10;
+	}
+
 	friend ostream& operator<<(ostream& out, const Lucrator& m);
 };
 
@@ -94,6 +102,14 @@ ostream& operator<<(ostream& out, const Lucrator& m) {
 
 int main() {
 	//gestionarea salariilor in cadrul companiei
+	Angajat a1("Angajat Gigel", 1000);
+	Manager m1("Manager Gigel", 1000, 15);
+	Lucrator l1("Lucrator Gigel", 1000, 25);
+	cout << "\ncalcul salariu angajat: " << a1.calculSalariu();
+	cout << "\ncalcul salariu manager: " << m1.calculSalariu();
+	cout << "\ncalcul salariu lucrator: " << l1.calculSalariu();
+
+	//companie
 
 	return 0;
 }
