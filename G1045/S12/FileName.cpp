@@ -1,6 +1,12 @@
 #include<iostream>
 using namespace std;
 
+//conceptul de virtualizare
+//meth virtuala
+//meth virtuala pura
+//clasa abstracta
+//interfata
+
 class Angajat {
 
 protected:
@@ -49,6 +55,40 @@ public:
 ostream& operator<<(ostream& out, const Angajat& a) {
 	out << "\nNume: " << a.nume;
 	out << "\nSalariu baza: " << a.salariuBaza;
+	return out;
+}
+
+class Manager :public Angajat {
+	int nrSubordonati = 0;
+
+public:
+	Manager(string _nume, float _salariuBaza, int _nrSubordonati):Angajat(_nume,_salariuBaza) {
+		this->nrSubordonati = _nrSubordonati;
+	}
+
+	friend ostream& operator<<(ostream& out, const Manager& m);
+};
+
+ostream& operator<<(ostream& out, const Manager& m) {
+	out << (Angajat)m;//upcast explicit prin valoare
+	out << "\nNr subordonati: " << m.nrSubordonati;
+	return out;
+}
+
+class Lucrator :public Angajat {
+	int nrOreSuplimentare = 0;
+
+public:
+	Lucrator(string _nume, float _salariuBaza, int _nrOreSuplimentare) :Angajat(_nume, _salariuBaza) {
+		this->nrOreSuplimentare = _nrOreSuplimentare;
+	}
+
+	friend ostream& operator<<(ostream& out, const Lucrator& m);
+};
+
+ostream& operator<<(ostream& out, const Lucrator& m) {
+	out << (Angajat)m;//upcast explicit prin valoare
+	out << "\nNr ore suplimentare: " << m.nrOreSuplimentare;
 	return out;
 }
 
