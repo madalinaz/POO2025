@@ -1,13 +1,36 @@
 #include<iostream>
 using namespace std;
 
-//conceptul de virtualizare
-//meth virtuala
-//meth virtuala pura
-//clasa abstracta
-//interfata
+class A {
+public:
+	virtual void metoda() = 0;
+};
 
-class Angajat {
+class B :public A {
+public:
+	void metoda() override {
+		A::metoda();
+		cout << "\nAici sunt in metoda din clasa derivata";
+	}
+};
+
+//conceptul de virtualizare = meth virtuala clasa Baza + vector de pointeri de tip clasa de baza + shallow copy
+//meth virtuala DONE
+//meth virtuala pura DONE
+//clasa abstracta -> cel putin o meth virtuala pura
+//interfata ->are doar meth virtuale pure = CONTRACT
+
+class IPlatibil {
+public:
+	virtual float calculSalariu() = 0;
+};
+
+class IPrintabil {
+public:
+	virtual void afisareInfo() = 0;
+};
+
+class Angajat:public IPlatibil {
 
 protected:
 	string nume = "Anonim";
@@ -42,6 +65,8 @@ public:
 	}
 
 	friend ostream& operator<<(ostream& out, const Angajat& a);
+
+	//virtual float calculSalariu() = 0;//meth virtuala pura
 
 	virtual float calculSalariu() {
 		//pp ca exista o regula complexa de calcul salariu
@@ -123,5 +148,17 @@ int main() {
 		totalSalarii2 += vp[i]->calculSalariu();
 	}
 	cout << "\nTotal salarii folosind vector pointeri: " << totalSalarii2;
+	cout << "\nAfisare informatii salariati: ";
+	for (int i = 0; i < 3; i++) {
+		cout << *vp[i];
+	}
+
+	//HOME: DE GESTIONAT VIRTUALIZAREA AFISARII IN OSTREAM
+	//DE VAZUT TOSTRING() DIN JAVA
+
+	//HOME2: DE IMPLEMENTAT CLASA COMPANIE IN RELATIE DE HAS A CU ANGAJAT(VECTOR DE POINTERI LA ANGAJAT) (DEEP VS SHALLOW)
+	
+	//A* pb = new B();
+	A* pb2;
 	return 0;
 }
