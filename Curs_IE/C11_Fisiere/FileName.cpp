@@ -120,11 +120,49 @@ public:
 		in >> e.areMancare;
 		return in;
 	}
+
+	friend ifstream& operator>>(ifstream& in, Eveniment& e) {
+		if (e.coordonator != nullptr) {
+			delete[] e.coordonator;
+			e.coordonator = nullptr;
+		}
+		if (e.bugetEtape != nullptr) {
+			delete[] e.bugetEtape;
+			e.bugetEtape = nullptr;
+		}
+
+		in >> e.id;
+		in >> e.denumire;
+		string buffer;
+		in >> buffer;
+		e.coordonator = new char[buffer.length() + 1];
+		strcpy_s(e.coordonator, buffer.length() + 1, buffer.data());
+		in >> e.nrEtape;
+		e.bugetEtape = new float[e.nrEtape];
+		for (int i = 0; i < e.nrEtape; i++) {
+			in >> e.bugetEtape[i];
+		}
+		in >> e.areMancare;
+		return in;
+	}
 };
 
 int main() {
 	float bugetEtape[] = { 100,200,300.5 };
 	Eveniment e1(12, "Eveniment", "Gigel", 3, bugetEtape, true);
 	cout << e1;
+
+	cout << "\n---------FISIERE TEXT--------";
+	//ofstream g("eveniment.txt");
+	//g << e1;//ofstream is a ostream
+	//g.close();
+
+	Eveniment e2;
+	ifstream f("eveniment.txt");
+	f >> e2;//ifstream is a istream
+	cout << e2;
+	f.close();
+
+	cout << "\n---------FISIERE BINARE--------";
 	return 0;
 }
