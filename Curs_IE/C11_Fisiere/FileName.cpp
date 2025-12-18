@@ -179,6 +179,34 @@ public:
 		//scriere bool
 		f.write((char*)&this->areMancare, sizeof(bool));
 	}
+
+	void readFromFile(fstream& f) {
+		//citire int (id)
+		f.read((char*)&this->id, sizeof(int));
+
+		//citire string
+		int lg;
+		f.read((char*)&lg, sizeof(int));
+		char buffer[100];
+		f.read(buffer, lg);
+		this->denumire = buffer;
+
+		//citire char*
+		f.read((char*)&lg, sizeof(int));
+		this->coordonator = new char[lg];
+		f.read(this->coordonator, lg);
+
+		//citire nr etape (int)
+		f.read((char*)&this->nrEtape, sizeof(int));
+
+		this->bugetEtape = new float[this->nrEtape];
+		for (int i = 0; i < this->nrEtape; i++) {
+			f.read((char*)&this->bugetEtape[i], sizeof(float));
+		}
+
+		//citire bool
+		f.read((char*)&this->areMancare, sizeof(bool));
+	}
 };
 
 int main() {
@@ -198,6 +226,14 @@ int main() {
 	f.close();
 
 	cout << "\n---------FISIERE BINARE--------";
-	fstream fOut("colectie.bin", ios::out | ios::binary);
+	//fstream fOut("colectie.bin", ios::out | ios::binary);
+	//e1.writeToFile(fOut);
+	//fOut.close();
+
+	fstream fIn("colectie.bin", ios::in | ios::binary);
+	Eveniment e3;
+	e3.readFromFile(fIn);
+	cout << e3;
+	fIn.close();
 	return 0;
 }
