@@ -2,6 +2,9 @@
 #include<fstream>
 using namespace std;
 
+//HOME1 - virtualizare citire fisier binar
+//HOME2 - principii clean code
+
 class Eveniment {
 	int id;
 	string denumire;
@@ -145,6 +148,37 @@ public:
 		in >> e.areMancare;
 		return in;
 	}
+
+	//serializare
+	void writeToFile(fstream& f) {
+		//scriere int (id)
+		f.write((char*) & this->id, sizeof(int));
+
+		//scriere string
+		//1.scriere lg sir
+		int lg = this->denumire.length()+1;
+		f.write((char*) & lg, sizeof(int));
+		//2.scriere sir efectiv
+		f.write(this->denumire.data(), lg);
+
+		//scriere char* (coordonator)
+		//1.scriere lg sir
+		lg = strlen(this->coordonator)+1;
+		f.write((char*)&lg, sizeof(int));
+		//2.scriere sir efectiv
+		f.write(this->coordonator, lg);
+
+		//scriere int (nr Etape)
+		f.write((char*)&this->nrEtape, sizeof(int));
+
+		//scriere vector dinamic de float
+		for (int i = 0; i < this->nrEtape; i++) {
+			f.write((char*)&this->bugetEtape[i], sizeof(float));
+		}
+
+		//scriere bool
+		f.write((char*)&this->areMancare, sizeof(bool));
+	}
 };
 
 int main() {
@@ -164,5 +198,6 @@ int main() {
 	f.close();
 
 	cout << "\n---------FISIERE BINARE--------";
+	fstream fOut("colectie.bin", ios::out | ios::binary);
 	return 0;
 }
