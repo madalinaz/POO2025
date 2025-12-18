@@ -146,6 +146,72 @@ public:
 		in >> e.areMancare;
 		return in;
 	}
+
+	//serializarea unui obj(adica this-ul)
+	void writeToFile(fstream& f) {
+		//scriere a unui int (id)
+		f.write((char*) & this->id, sizeof(int));
+		
+		//scriere a unui string
+		//p1. scrierea lg sirului
+		int lg = this->denumire.length() + 1;
+		f.write((char*) & lg, sizeof(int));
+		//p2. scriere sir efectiv
+		f.write(this->denumire.data(), lg);//data-ul extrage char*-ul din string
+		
+		//scriere a unui char*
+		lg = strlen(this->coordonator) + 1;
+		f.write((char*)&lg, sizeof(int));
+		f.write(this->coordonator, lg);
+
+		//scriere nr etape (int)
+		f.write((char*) & this->nrEtape, sizeof(int));
+
+		//scriere vector de float (buget etape)
+		for (int i = 0; i < this->nrEtape; i++) {
+			f.write((char*) & this->bugetEtape[i], sizeof(float));
+		}
+
+		//scriere bool (are mancare)
+		f.write((char*) & this->areMancare, sizeof(bool));
+	}
+
+	void readFromFile(fstream& f) {
+		if (this->coordonator != nullptr) {
+			delete[] this->coordonator;
+			this->coordonator = nullptr;
+		}
+		if (this->bugetEtape != nullptr) {
+			delete[] this->bugetEtape;
+			this->bugetEtape = nullptr;
+		}
+		//citire a unui int (id)
+		f.read((char*) & this->id, sizeof(int));
+
+		//citire string (denumire)
+		//p1.citire lg sir
+		int lg;
+		f.read((char*) & lg, sizeof(int));
+		//citire sir de caractere
+		char buffer[100];
+		f.read(buffer, lg);
+		this->denumire = buffer;
+
+		//citire sir de caractere(char*)
+		f.read((char*)&lg, sizeof(int));
+		this->coordonator = new char[lg];
+		f.read(this->coordonator, lg);
+
+		//citire int (nr etape)
+		f.read((char*) & this->nrEtape, sizeof(int));
+		this->bugetEtape = new float[this->nrEtape];
+		for (int i = 0; i < this->nrEtape; i++) {
+			f.read((char*) & this->bugetEtape[i], sizeof(float));
+		}
+
+		//citire bool
+		f.read((char*) & this->areMancare, sizeof(bool));
+	}
 };
 
 int main() {
@@ -166,7 +232,13 @@ int main() {
 	f.close();
 	cout << "\n-------------LUCRUL CU FISIERE BINARE---------------";
 	//fstream fileOut("colectie.bin", ios::out | ios::binary);
-	//fstream fileIn("colectie.bin", ios::in | ios::binary);
+	//e1.writeToFile(fileOut);
+	//fileOut.close();
 
+	fstream fileIn("colectie.bin", ios::in | ios::binary);
+	Eveniment e3;
+	e3.readFromFile(fileIn);
+	fileIn.close();
+	cout << e3;
 	return 0;
 }
