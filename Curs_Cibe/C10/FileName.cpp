@@ -120,6 +120,32 @@ public:
 		in >> e.areMancare;
 		return in;
 	}
+
+	//citire dintr-un fisier text
+	friend ifstream& operator>>(ifstream& in, Eveniment& e) {
+		if (e.coordonator != nullptr) {
+			delete[] e.coordonator;
+			e.coordonator = nullptr;
+		}
+		if (e.bugetEtape != nullptr) {
+			delete[] e.bugetEtape;
+			e.bugetEtape = nullptr;
+		}
+
+		in >> e.id;
+		in >> e.denumire;
+		string buffer;
+		in >> buffer;
+		e.coordonator = new char[buffer.length() + 1];
+		strcpy_s(e.coordonator, buffer.length() + 1, buffer.data());
+		in >> e.nrEtape;
+		e.bugetEtape = new float[e.nrEtape];
+		for (int i = 0; i < e.nrEtape; i++) {
+			in >> e.bugetEtape[i];
+		}
+		in >> e.areMancare;
+		return in;
+	}
 };
 
 int main() {
@@ -130,9 +156,14 @@ int main() {
 	//cout << e1;
 
 	cout << "\n-------------LUCRUL CU FISIERE TEXT---------------";
-	ofstream g("evenimente.txt");
-	//ifstream f("evenimente.txt");
-	
+	//ofstream g("evenimente.txt");
+	//g << e1;//ofstream is a ostream
+	//g.close();
+	ifstream f("evenimente.txt");
+	Eveniment e2;
+	f >> e2;
+	cout << e2;
+	f.close();
 	cout << "\n-------------LUCRUL CU FISIERE BINARE---------------";
 	//fstream fileOut("colectie.bin", ios::out | ios::binary);
 	//fstream fileIn("colectie.bin", ios::in | ios::binary);
