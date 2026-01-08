@@ -32,6 +32,35 @@ public:
 	}
 };
 
+template<class T>
+class Container {
+	T v[10];
+	int nrElem;
+
+public:
+	Container() {
+		this->nrElem = 0;
+	}
+
+	Container(T _v[10], int _nrElem) {
+		this->nrElem = _nrElem;
+		for (int i = 0; i < this->nrElem; i++)
+			this->v[i] = _v[i];
+	}
+
+	friend ostream& operator<<(ostream& out, const Container& c) {
+		out << "\nNr elem: " << c.nrElem;
+		out << "\nLista elem: ";
+		for (int i = 0; i < c.nrElem; i++)
+			out << c.v[i] << " ";
+		return out;
+	}
+};
+
 int main() {
+	int rez = sumaInt(2, 5);
+	cout << rez;
+	int rez2 = suma<int>(2.5, 5.2);
+	cout << endl << rez2;
 	return 0;
 }
