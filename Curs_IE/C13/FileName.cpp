@@ -1,4 +1,5 @@
 #include<iostream>
+#include<vector>
 using namespace std;
 
 int sumaInt(int v1, int v2) {
@@ -17,10 +18,14 @@ T1 sumaGenerala(T2 v1, T2 v2) {
 }
 
 class Angajat {
-	string nume;
-	float salariu;
+	string nume="";
+	float salariu=0;
 
 public:
+	Angajat() {
+
+	}
+
 	Angajat(string _nume, float _salariu) {
 		this->nume = _nume;
 		this->salariu = _salariu;
@@ -55,6 +60,16 @@ public:
 			out << c.v[i] << " ";
 		return out;
 	}
+
+	T getTheBest() {
+		T rezultat = this->v[0];
+		for (int i = 1; i < this->nrElem; i++) {
+			if (v[i] > rezultat) {
+				rezultat = v[i];
+			}
+		}
+		return rezultat;
+	}
 };
 
 int main() {
@@ -62,5 +77,29 @@ int main() {
 	cout << rez;
 	int rez2 = suma<int>(2.5, 5.2);
 	cout << endl << rez2;
+
+	cout << "\n----CLASA TEMPLATE-----";
+	Container<int>cInt;
+	cout << cInt;
+
+	Container<Angajat>cProdus;
+	//cProdus.getTheBest();
+
+	//STL
+	//structura de date: vector, matrice, lista, stiva, coada, arbori, grafuri
+
+	vector<int> vInt;
+	vInt.push_back(10);
+	vInt.push_back(20);
+	for (int i = 0; i < vInt.size(); i++) {
+		cout << vInt[i] << " ";
+	}
+
+	//parcurgere generalizata 
+	//iterator
+	vector<int>::iterator it;
+	for (it = vInt.begin(); it != vInt.end(); it++) {
+		cout << *it << endl;
+	}
 	return 0;
 }
