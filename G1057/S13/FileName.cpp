@@ -1,4 +1,5 @@
 #include<iostream>
+#include<vector>
 using namespace std;
 
 
@@ -47,9 +48,18 @@ public:
 
 	}
 
+	Angajat(float _salariu) {
+		this->salariu = _salariu;
+	}
+
 	Angajat(string _nume, float _salariu) {
 		this->nume = _nume;
 		this->salariu = _salariu;
+	}
+
+	Angajat& operator+=(const Angajat& a) {
+		*this = this->operator+(a);
+		return *this;
 	}
 
 	Angajat operator+(const Angajat& a) const{
@@ -86,6 +96,38 @@ int main() {
 	cout << cInt;
 
 	Colectie<Angajat> cAng;
-	
+	cAng += a1;
+	cAng += a2;
+	cAng += a1;
+	cout << cAng;
+	Angajat angRez;
+	angRez = cAng;//cast la Angajat dintr-o Colectie<Angajat>
+	cout << angRez;
+
+	//STL
+	//faciliteaza lucrul cu structuri de date (vector, list, set, map)
+	vector<int> vInt;
+	vInt.push_back(10);
+	vInt.push_back(20);
+	vInt.push_back(30);
+	for (int i = 0; i < vInt.size(); i++) {
+		cout << vInt[i] << " ";
+	}
+	vector<int>::iterator it;
+	for (it = vInt.begin(); it != vInt.end(); it++) {
+		cout << *it << " ";
+	}
+
+	vector<int>::reverse_iterator rit;
+	for (rit = vInt.rbegin(); rit != vInt.rend(); rit++) {
+		cout << *rit << " ";
+	}
+
+	//TO DO ->de utilizat clasa vector intr-o clasa tip colectie
+	//alegeti o clasa de tip WishList(has a)
+
+	//TO DO 2 ->folosind si celelalte STL-uri(set,map)
+	//sa modelati in format de unicitate toti proprietarii de masini(fiecare proprietar unic are o lista unica de masini) (unicitate proprietari este dupa CNP, iar unicitate masini este dupa VIN) (de vazut daca exista posibilitatea ca 2 proprietari sa poata detine aceeasi masina??? sau NU)
+
 	return 0;
 }
