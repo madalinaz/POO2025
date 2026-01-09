@@ -1,7 +1,18 @@
 #include<iostream>
+#include<vector>
 using namespace std;
 
-class Angajat {
+class IAfisabil {
+public:
+	virtual void afisare() = 0;
+};
+
+class IPlatibil {
+	virtual float calculSalariu() = 0;
+};
+
+class Angajat //:public IAfisabil, public IPlatibil 
+{
 protected:
 	string nume = "Anonim";
 	float salariuBaza = 0;
@@ -35,12 +46,15 @@ public:
 
 	friend ostream& operator<<(ostream& out, const Angajat& a);
 
-	float calculSalariu() {
+	//virtual float methVirtualaPura() = 0;
+
+	virtual float calculSalariu() {
 		//pp ca exista o regula complexa de calcul salariu
 		return this->salariuBaza;
 	}
 
-	~Angajat() {
+	virtual ~Angajat() {
+		cout << "\nApel destructor Angajat";
 	}
 };
 
@@ -58,8 +72,15 @@ public:
 		this->nrSubordonati = _nrSubordonati;
 	}
 
+	float calculSalariu() {
+		return Angajat::calculSalariu() + this->nrSubordonati * 100;
+	}
 
 	friend ostream& operator<<(ostream& out, const Manager& m);
+
+	~Manager() {
+		cout << "\nApel destructor Manager";
+	}
 };
 
 ostream& operator<<(ostream& out, const Manager& m) {
@@ -76,7 +97,15 @@ public:
 		this->nrOreSuplimentare = _nrOreSuplimentare;
 	}
 
+	float calculSalariu() {
+		return Angajat::calculSalariu() + this->nrOreSuplimentare * 10;
+	}
+
 	friend ostream& operator<<(ostream& out, const Lucrator& m);
+
+	~Lucrator() {
+		cout << "\nApel destructor Lucrator";
+	}
 };
 
 ostream& operator<<(ostream& out, const Lucrator& m) {
@@ -85,9 +114,57 @@ ostream& operator<<(ostream& out, const Lucrator& m) {
 	return out;
 }
 
+/*
 int main() {
 	Angajat a1("Angajat Gigel", 1000);
 	Manager m1("Manager Costel", 1000, 10);
 	Lucrator l1("Lucrator Marcel", 1000, 25);
+	
+	cout << "\nSalariu angajat: " << a1.calculSalariu();
+	cout << "\nSalariu manager: " << m1.calculSalariu();
+	cout << "\nSalariu lucrator: " << l1.calculSalariu();
+
+	//Compania care detine angajati care pot fi de tipul: Angajat, Manager, Lucrator
+	//sa se afiseze totalul salariilor tuturor angajatilor
+	Angajat lista[] = { a1,m1,l1 };
+	double total = 0;
+	for (int i = 0; i < 3; i++) {
+		total += lista[i].calculSalariu();
+	}
+	cout << "\nTotal salarii: " << total;
+
+	Angajat* listaP[] = { &a1,&m1,&l1 };
+	double total2 = 0;
+	for (int i = 0; i < 3; i++) {
+		total2 += listaP[i]->calculSalariu();
+	}
+	cout << "\nTotal salarii2: " << total2;
+
+	cout << "\n----------------------";
+	Angajat a2 = a1;
+	a2 = m1;//upcast pe obiecte
+	Angajat* pa2 = &a1;
+	pa2 = &m1; //upcast pe adrese
+
+	vector<Angajat*>v;
+	v.push_back(&m1);
+	v.push_back(&l1);
+	return 0;
+}
+*/
+
+int main() {
+	Angajat a1("Angajat Gigel", 1000);
+	Manager m1("Manager Costel", 1000, 10);
+	Lucrator l1("Lucrator Marcel", 1000, 25);
+
+	//a1 = m1;
+	Angajat* pa;
+
+	pa = new Angajat("Angajat Gigel", 1000);
+	delete pa;
+	pa = new Manager("Manager Costel", 1000, 10);
+	delete pa;
+	cout << "\nDupa delete";
 	return 0;
 }
