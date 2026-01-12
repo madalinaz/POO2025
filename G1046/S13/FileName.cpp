@@ -32,6 +32,13 @@ class ColectieAngajati {
 	//
 };
 
+void adaugareValoare(vector<vector<int>> m, int x, int l) {
+	if (l < 0 || l >= m.size()) {
+		throw exception("Linia mentionata NU este valida");
+	}
+	m[l].push_back(x);
+}
+
 int main() {
 	vector<int> v;
 	v.push_back(10);
@@ -72,7 +79,22 @@ int main() {
 		cout << endl;
 	}
 
-	//o functie globala care primeste o matrice (vector de vectori) si separat o valoare int x si linia (int ) si adauga la sfarsitul liniei l valoarea x primita ca parametru
+	//o functie globala care primeste o matrice (vector de vectori) si separat o valoare int x si linia (int ) si adauga la sfarsitul liniei l valoarea x primita ca parametru !!!Daca linia nu este valida, se va arunca o exceptie
+	try {
+		adaugareValoare(m, 1234, 2);
+	}
+	catch (exception ex) {
+		cout << endl << ex.what();
+	}
+
+	cout << "\n**************\n";
+	//o metoda/forma de afisare a matricei noastre
+	for (int i = 0; i < m.size(); i++) {
+		for (int j = 0; j < m[i].size(); j++) {
+			cout << m[i][j] << " ";
+		}
+		cout << endl;
+	}
 
 	return 0;
 }
