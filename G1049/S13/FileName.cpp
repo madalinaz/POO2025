@@ -134,5 +134,6 @@ int main() {
 
 	//T3. transformarea clasei colectie prin utilizarea STL-ului vector
 	//T4. gestionarea in context de unicitate a tuturor proprietarilor de masini (utilizand stl ->map + set) (fiecare proprietar poate avea o colectie de masini unice si vreau sa stochez toti proprietarii de masini) (poate sa existe posibilitatea ca mai multe persoane sa detina aceeasi masina sau NU). (unicitatea persoanelor se face prin cnp iar unicitatea masinilor prin VIN).
+
 	return 0;
 }
