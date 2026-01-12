@@ -63,6 +63,15 @@ int main() {
 	m[3].push_back(20);
 	m[3].push_back(20);
 
+	cout << "\n**************\n";
 	//o metoda/forma de afisare a matricei noastre
+	for (int i = 0; i < m.size(); i++) {
+		for (int j = 0; j < m[i].size(); j++) {
+			cout << m[i][j] << " ";
+		}
+		cout << endl;
+	}
+
+
 	return 0;
 }
