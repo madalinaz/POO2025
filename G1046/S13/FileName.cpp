@@ -32,7 +32,13 @@ class ColectieAngajati {
 	//
 };
 
-void adaugareValoare(vector<vector<int>> m, int x, int l) {
+template<class T>
+class ColectieAngajatiLight {
+	int nrAngajati;
+	//matrice de T-uri
+};
+
+void adaugareValoare(vector<vector<int>>& m, int x, int l) {
 	if (l < 0 || l >= m.size()) {
 		throw exception("Linia mentionata NU este valida");
 	}
