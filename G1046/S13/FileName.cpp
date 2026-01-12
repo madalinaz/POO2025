@@ -72,6 +72,7 @@ int main() {
 		cout << endl;
 	}
 
+	//o functie globala care primeste o matrice (vector de vectori) si separat o valoare int x si linia (int ) si adauga la sfarsitul liniei l valoarea x primita ca parametru
 
 	return 0;
 }
