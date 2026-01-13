@@ -26,16 +26,92 @@ public:
 
 //clasa template
 //ColectieAngajati has a Angajat
-class ColectieAngajati {
-	//vector de pointeri la angajati
-	//matrice de obj de tip generic T
-	//
+template<class T>
+class ColectieAngajati
+{
+	// Var 1
+	// vector pt contorizarea angajatilor (shallow copy)
+	// matrice cu obj generice (matrice de tip zig-zag)
+
+	vector<Angajat*> angajati; //= vector<Angajat*>();
+	vector<vector<T>> colectie; //= vector<vector<T>>();
+
+public:
+
+	// constr fara param
+	// constr cu un singur param marimea de angajati
+	// meth care adauga un nou T pt un anume angajat
+	// o metoda de afisare 
+	// 
+
+	int getNumarAngajati()
+	{
+		return angajati.size();
+	}
+
+	ColectieAngajati()
+	{
+		cout << "Constructor fara param." << endl;
+	}
+
+	ColectieAngajati(int marime, Angajat** a) // :angajati(vector<Angajat*>(marime, { nullptr })), colectie(vector<vector<T>>(marime, { vector<T> }))
+	{
+		//incarcare in this a pointerilor de tip Angajat
+		for (int i = 0; i < marime; i++)
+		{
+			this->angajati.push_back(a[i]);
+		}
+
+		//alocare vector<T> pentru fiecare angajat primit ca parametru
+		for (int i = 0; i < marime; i++)
+		{
+			this->colectie.push_back(vector<T>());
+		}
+
+		cout << "Constructor cu un param." << endl;
+	}
+
+	void adauga(int idx, T element)
+	{
+		if (idx < 0 || this->angajati.size() <= idx)
+		{
+			throw exception("NU exista angajatul!");
+		}
+
+		this->colectie[idx].push_back(element);
+	}
+
+	friend ostream& operator<<(ostream& out, const ColectieAngajati& c)
+	{
+		for (int i = 0; i < c.colectie.size(); i++)
+		{
+			out << *c.angajati[i];
+			out << " Lista: ";
+			if (c.colectie[i].size() == 0)
+			{
+				out << " -";
+			}
+
+			for (int j = 0; j < c.colectie[i].size(); j++)
+			{
+				out << c.colectie[i][j] << " ";
+			}
+			out << endl;
+		}
+
+		return out;
+	}
 };
+
 
 template<class T>
 class ColectieAngajatiLight {
 	int nrAngajati;
 	//matrice de T-uri
+
+	//constructor fara param/cu un singur parametru (nrAngajati)
+	//meth care adauga un nou T pentru un anume angajat
+	//o meth de afisare a obj de tip ColectieAngajatiLight
 };
 
 void adaugareValoare(vector<vector<int>>& m, int x, int l) {
@@ -101,6 +177,19 @@ int main() {
 		}
 		cout << endl;
 	}
+
+	cout << "\n*******clasa ColectieAngajat*******\n";
+	Angajat a1("A", 100);
+	Angajat a2("B", 100);
+	Angajat a3("C", 100);
+	Angajat a4("D", 100);
+
+	Angajat* lista[] = { &a1, &a2, &a3, &a4 };
+	ColectieAngajati<int> col(4,lista);
+	col.adauga(1, 100);
+	col.adauga(1, 200);
+	col.adauga(2, 240);
+	cout << col;
 
 	return 0;
 }
