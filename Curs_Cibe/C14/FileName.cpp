@@ -128,7 +128,8 @@ int main() {
 		cout << itM->first << " " << itM->second;
 	}
 
-	itM = m.find(a2);
+	//FIND PRIMESTE CHEIA, ASTA CAUTA METODA, NU OBJ STOCAT LA NIVELUL RESPECTIVEI CHEI
+	itM = m.find(0);
 	if (itM != m.end()) {
 		cout << endl << "S-a gasit elem cautat";
 		cout << itM->second;
