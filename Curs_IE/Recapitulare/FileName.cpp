@@ -115,7 +115,75 @@ public:
 			cout << "\nNu exista astfel de salarii";
 		}
 	}
+
+	//OPERATORI
+	Companie& operator+=(double _x) {
+		if (_x > 0) {
+			this->cifraAfaceri += _x;
+		}
+		return *this;
+	}
+
+	//pre-incrementare
+	Companie& operator++() {//returnam referinta intrucat returnam this-ul, care nu se distruge impreuna cu stiva functiei operatorului
+		//creste cu 1%
+		this->cifraAfaceri *= 1.01;
+		return *this;//returnam obj de dupa incrementare
+	}
+
+	//post-incrementare
+	Companie operator++(int) {
+		Companie copie = *this;
+		this->cifraAfaceri *= 1.01;
+		return copie;//returnam obj de dinainte de incrementare
+	}
+
+	//cast la string
+	operator string() {
+		return this->denumire;
+	}
+
+	//cast la double explicit
+	explicit operator double() {
+		//salariul cel mai mare
+		double max = 0;
+		for (int i = 0; i < this->nrAngajati; i++) {
+			if (this->salarii[i] > max) {
+				max = this->salarii[i];
+			}
+		}
+		return max;
+	}
+
+	double operator+(int _x) const{
+		//NU se modifica this-ul!!!!!!
+		return this->cifraAfaceri + _x;
+	}
+
+	Companie operator+(string _x) const{//return prin valoare a lui rezultat pentru ca el se va distruge
+		Companie rezultat = *this;
+		rezultat.denumire += _x;//concatenare pe string-uri
+		return rezultat;
+	}
 };
+
+//has a 1-M
+class Persoana {
+	string denumire;
+	int nrCompanii;
+	Companie* lista;//colectia companiilor la care persoana curenta este actionar
+
+public:
+
+};
+
+// relatie has a 1-1
+// class Masina has a 1 Proprietar
+//class Masina {
+//	string model;
+//	int anFabricatie;
+//	Proprietar proprietar;
+//};
 
 int main() {
 	Companie c1(105);
@@ -135,6 +203,29 @@ int main() {
 	c1.afisareSalariiPestePrag(150);
 
 	//operatori
+	c1 += 10; //lucreaza direct pe this
+	cout << c1;
+
 	
+	c2 = ++c1;//forma de pre incrementare
+	cout << c2;
+	cout << c1;
+	c2 = c1++;//post incrementare
+	cout << c2;
+	cout << c1;
+
+	string denumire = c2; //cast la string (conversie) /operator string
+	cout << "\nDenumire folosind cast la string: " << denumire;
+	double salariuMax = (double)c2;//apel cast la double explicit
+	cout << "\nSalariu max folosind cast la double este: " << salariuMax;
+
+	double rezultat = c2 + 10;//rezultat va lua valoarea CA a lui c2 la care suplimenteaza valoarea 10
+	//double rezultat2 = 10 + c2;//obligatoriu se implementeaza prin functie friend, pentru ca primul operator nu este de tipul clasei
+	Companie c5 = c2 + "AB";//operatorul plus completeaza numele companiei cu ce primeste suplimentar ca parametru
+	cout << c5;
+
+	//cin >> c5;
+
+
 	return 0;
 }
